@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Qt 正则表达式 | 孟方方的博客</title><meta name="keywords" content="Qt-Model/View"><meta name="author" content="孟方方"><meta name="copyright" content="孟方方"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="QRegExpQt5.0之前版本，正则表达式是QRegExp。构造函数如下： 1QRegExp::QRegExp(const QString &amp;pattern, Qt::CaseSensitivity cs &#x3D; Qt::CaseSensitive, QRegExp::PatternSyntax syntax); 其中QRegExp::PatternSyntax syntax用于解释模式含义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt 正则表达式">
+<meta property="og:url" content="https://gitee.com/miffy-fly/blog.git/Qt/qt-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
+<meta property="og:site_name" content="孟方方的博客">
+<meta property="og:description" content="QRegExpQt5.0之前版本，正则表达式是QRegExp。构造函数如下： 1QRegExp::QRegExp(const QString &amp;pattern, Qt::CaseSensitivity cs &#x3D; Qt::CaseSensitive, QRegExp::PatternSyntax syntax); 其中QRegExp::PatternSyntax syntax用于解释模式含义">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/miffy-fly/blog.git/img/Sys/TopAbout.png">
+<meta property="article:published_time" content="2022-10-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-08T13:00:41.740Z">
+<meta property="article:author" content="孟方方">
+<meta property="article:tag" content="Qt-Model&#x2F;View">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/miffy-fly/blog.git/img/Sys/TopAbout.png"><link rel="shortcut icon" href="/Blog/img/Sys/Head.jpg"><link rel="canonical" href="https://gitee.com/miffy-fly/blog.git/Qt/qt-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/Blog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/Blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Qt 正则表达式',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-08 21:00:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/Blog/img/Sys/Head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/Blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/Blog/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/Blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/Blog/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/Blog/img/Sys/TopAbout.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/Blog/">孟方方的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/Blog/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Qt 正则表达式</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2022-10-07T16:00:00.000Z" title="发表于 2022-10-08 00:00:00">2022-10-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/Blog/categories/Qt/">Qt</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="QRegExp"><a href="#QRegExp" class="headerlink" title="QRegExp"></a>QRegExp</h2><p>Qt5.0之前版本，正则表达式是<code>QRegExp</code>。构造函数如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QRegExp::<span class="built_in">QRegExp</span>(<span class="type">const</span> QString &amp;pattern, Qt::CaseSensitivity cs = Qt::CaseSensitive, QRegExp::PatternSyntax syntax);</span><br></pre></td></tr></table></figure>
+<p>其中<code>QRegExp::PatternSyntax syntax</code>用于解释模式含义的语法,默认选择<code>QRegExp::RegExp</code>。</p>
+<h3 id="QRegExp-RegExp"><a href="#QRegExp-RegExp" class="headerlink" title="QRegExp::RegExp"></a>QRegExp::RegExp</h3><p>常见元字符:</p>
+<ul>
+<li><code> .</code>   匹配除换行符以外的任意字符</li>
+<li><code>\w</code>  匹配字母或数字或下划线或汉字</li>
+<li><code>\s</code>  匹配任意的空白符</li>
+<li><code>\d</code>  匹配数字</li>
+<li><code>\b</code>  匹配单词的开始或结束</li>
+<li><code>^ </code>  匹配字符串的开始</li>
+<li><code>$ </code>  匹配字符串的结束</li>
+<li><code>[]</code> 匹配括号内输入的任意字符.    例如[123],只要是1, 2 ,3,12,23都满足</li>
+<li><code>()</code> 表示一个集合,用于提取匹配的字符串,表达式中有几个()就有几个相应的匹配字符串。</li>
+</ul>
+<p>限定重复元字符:</p>
+<ul>
+<li><code>*</code>   重复零次或更多次    例如, 1*2可以为任意数量个1(甚至没有), 后面跟一个2</li>
+<li><code>+</code>   重复一次或更多次    例如, 1+2必须为一个或多个1, 后跟一个2</li>
+<li><code>?</code>   重复零次或一次       例如,-?1 必须为1,或者-1</li>
+<li><code>&#123;n&#125;</code> 重复n次             例如 1?2可以为2或12</li>
+<li><code>&#123;n,&#125;</code>   重复n次或更多次</li>
+<li><code>&#123;n,m&#125;</code>  重复n到m次</li>
+</ul>
+<p>反义元字符：</p>
+<ul>
+<li><code>\W</code>  匹配任意不是字母，数字，下划线，汉字的字符</li>
+<li><code>\S</code>  匹配任意不是空白符的字符</li>
+<li><code>\D</code>  匹配任意非数字的字符</li>
+<li><code>\B</code>  匹配不是单词开头或结束的位置</li>
+<li><code>[^x]</code>   匹配除了x以外的任意字符</li>
+<li><code>[^aeiou]</code>   匹配除了aeiou这几个字母以外的任意字符</li>
+</ul>
+<div class="note warning flat"><p>如果想查找元字符本身的话，就得使用\来取消这些字符的特殊意义,比如: deerchao.cn匹配deerchao.cn</p>
+</div>
+<p>使用示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">^\d&#123;<span class="number">5</span>,<span class="number">12</span>&#125;$               <span class="comment">//  匹配数字(比如qq号),必须为5位到12位数字</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;^-?\d+$&quot;</span>　　　　         <span class="comment">//匹配整数,可以为负数</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;^(-?\d+)(\.\d+)?$&quot;</span>　 　 <span class="comment">//匹配浮点数</span></span><br><span class="line"><span class="string">&quot;^\d+$&quot;</span>　　              <span class="comment">//匹配非负整数</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;^\d+(\.\d+)?$&quot;</span>　　      <span class="comment">//匹配非负整数</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;^[A-Za-z]+$&quot;</span>           <span class="comment">//匹配大小写英文字母</span></span><br></pre></td></tr></table></figure>
+<h3 id="QRegExp-Wildcard"><a href="#QRegExp-Wildcard" class="headerlink" title="QRegExp::Wildcard"></a>QRegExp::Wildcard</h3><p>通配符只有<code>？</code>、<code>*</code>、<code>[]</code>三种。</p>
+<ul>
+<li><code>?</code>  匹配任意单个字符,和 RegExp的”.”相同</li>
+<li><code>*</code>   匹配任意一个字符序列.   和RegExp的”.*”相同</li>
+<li><code>[]</code>  匹配一个定义的字符集合. 例如, [a-zA-Z.]可以匹配 a到z之间任意一个字符和. [^a]匹配出小写a以外的字符.</li>
+</ul>
+<h3 id="QRegExp-FixedString"><a href="#QRegExp-FixedString" class="headerlink" title="QRegExp::FixedString"></a>QRegExp::FixedString</h3><div class="note warning flat"><p>这意味着要匹配的模式被解释为普通字符串，即特殊字符（例如反斜杠）不被转义</p>
+</div>
+
+<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*只能匹配整数,\\d表示转义字符，C++用\\来表示\ */</span></span><br><span class="line">    <span class="function">QRegExp <span class="title">regx</span><span class="params">(<span class="string">&quot;^-?\\d+$&quot;</span>)</span></span>;</span><br><span class="line">    QValidator *validator = <span class="keyword">new</span> <span class="built_in">QRegExpValidator</span>(regx, <span class="keyword">this</span> );</span><br><span class="line">    ui-&gt;lineEdit-&gt;<span class="built_in">setValidator</span>( validator );        <span class="comment">//设置lineEdit只能输入数字</span></span><br><span class="line"></span><br><span class="line">    QStringList list;</span><br><span class="line">    list&lt;&lt;<span class="string">&quot;123&quot;</span>;</span><br><span class="line">    list&lt;&lt;<span class="string">&quot;123A456&quot;</span>;</span><br><span class="line">    list&lt;&lt;<span class="string">&quot;555a&quot;</span>;</span><br><span class="line">    list&lt;&lt;<span class="string">&quot;89d&quot;</span>;</span><br><span class="line">    list&lt;&lt;<span class="string">&quot;3695x&quot;</span>;</span><br><span class="line">    list&lt;&lt;<span class="string">&quot;69&quot;</span>;</span><br><span class="line">    list&lt;&lt;<span class="string">&quot;78.9&quot;</span>;</span><br><span class="line"></span><br><span class="line">    foreach(QString s, list.<span class="built_in">filter</span>(regx))&#123;      <span class="comment">//匹配字符串list</span></span><br><span class="line">        <span class="built_in">qDebug</span>()&lt;&lt;s;      <span class="comment">//过滤数字,只打印123、69</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//检索str时</span></span><br><span class="line">    QString str = <span class="string">&quot;-123&quot;</span>;</span><br><span class="line">    <span class="built_in">qDebug</span>()&lt;&lt;str.<span class="built_in">contains</span>(regx);       <span class="comment">//返回true</span></span><br><span class="line"></span><br><span class="line">    <span class="function">QRegExp <span class="title">regx2</span><span class="params">(<span class="string">&quot;-?\\d+&quot;</span>)</span></span>;</span><br><span class="line">    str = <span class="string">&quot;number : -123xx&quot;</span>;</span><br><span class="line">    <span class="built_in">qDebug</span>()&lt;&lt;str.<span class="built_in">indexOf</span>(regx2);       <span class="comment">//&quot;-123&quot;的位置在索引9上, QRegExp的缺点就是匹配到起始索引后,无法得到终点索引.</span></span><br></pre></td></tr></table></figure>
+<h2 id="QRegularExpression"><a href="#QRegularExpression" class="headerlink" title="QRegularExpression"></a>QRegularExpression</h2><p><code>QRegularExpression</code>是Qt 5.0引进的，修复了很多bug，提高了效率，使用时建议使用QRegularExpression。使用时,只需要构造QRegularExpression类,然后通过match函数来匹配目标字符串即可,match函数如下所示:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QRegularExpressionMatch <span class="title">match</span><span class="params">(<span class="type">const</span> QString &amp;subject,        <span class="comment">//被匹配的目标字符串</span></span></span></span><br><span class="line"><span class="params"><span class="function">                             <span class="type">int</span> offset = <span class="number">0</span>,               <span class="comment">//匹配的字符串起始位置</span></span></span></span><br><span class="line"><span class="params"><span class="function">                            MatchType matchType  = NormalMatch, <span class="comment">//匹配类型</span></span></span></span><br><span class="line"><span class="params"><span class="function">                           MatchOptions matchOptions = NoMatchOption)</span> <span class="type">const</span></span>;<span class="comment">// 匹配选项</span></span><br></pre></td></tr></table></figure>
+<div class="note default flat"><p>QRegularExpressionMatch类,常用函数如下所示:</p>
+</div>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">hasMatch</span><span class="params">()</span> :     判断是否匹配</span></span><br><span class="line"><span class="function">QString captured(int nth =</span> <span class="number">0</span>) :   获取匹配到的第nth个集合段.</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">capturedStart</span><span class="params">(<span class="type">int</span> nth = <span class="number">0</span>)</span> :   获取匹配到的第nth个集合段的起始索引</span></span><br><span class="line"><span class="function">int capturedLength(int nth =</span> <span class="number">0</span>) ：获取匹配到的第nth个集合段的长度</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">capturedEnd</span><span class="params">(<span class="type">int</span> nth = <span class="number">0</span>)</span> :   获取匹配到的第nth个集合段的终点索引</span></span><br></pre></td></tr></table></figure>
+<div class="note default flat"><p>示例</p>
+</div>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">hasMatch</span><span class="params">()</span> :     判断是否匹配</span></span><br><span class="line"><span class="function">QString captured(int nth =</span> <span class="number">0</span>) :   获取匹配到的第nth个集合段.</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">capturedStart</span><span class="params">(<span class="type">int</span> nth = <span class="number">0</span>)</span> :   获取匹配到的第nth个集合段的起始索引</span></span><br><span class="line"><span class="function">int capturedLength(int nth =</span> <span class="number">0</span>) ：获取匹配到的第nth个集合段的长度</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">capturedEnd</span><span class="params">(<span class="type">int</span> nth = <span class="number">0</span>)</span> :   获取匹配到的第nth个集合段的终点索引</span></span><br></pre></td></tr></table></figure>
+<div class="note default flat"><p>打印结果：</p>
+</div>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">index= <span class="number">0</span> ,str= <span class="string">&quot;1999/12/11&quot;</span> ,offset: <span class="number">4</span> <span class="number">14</span></span><br><span class="line"></span><br><span class="line">index= <span class="number">1</span> ,str= <span class="string">&quot;1999&quot;</span> ,offset: <span class="number">4</span> <span class="number">8</span></span><br><span class="line"></span><br><span class="line">index= <span class="number">2</span> ,str= <span class="string">&quot;12&quot;</span> ,offset: <span class="number">9</span> <span class="number">11</span></span><br><span class="line"></span><br><span class="line">index= <span class="number">3</span> ,str= <span class="string">&quot;11&quot;</span> ,offset: <span class="number">12</span> <span class="number">14</span></span><br></pre></td></tr></table></figure>
+<p>因为() 表示一个集合,所以除了匹配(\d+)/(\d+)/(\d+)外,还会再次匹配3个圆括号里的内容,所以就有4个captured</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/Blog/tags/Qt-Model-View/">Qt-Model/View</a></div><div class="post_share"><div class="social-share" data-image="/Blog/img/Sys/TopAbout.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/Blog/Qt/qsortfilterproxymodel/"><img class="prev-cover" src="/Blog/img/Sys/TopAbout.png" onerror="onerror=null;src='/Blog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">QSortFilterProxyModel</div></div></a></div><div class="next-post pull-right"><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE/"><img class="next-cover" src="/Blog/img/Sys/TopDefault.jpg" onerror="onerror=null;src='/Blog/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Qt 模型/视图：自定义视图</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9E%8B/" title="Qt 模型&#x2F;视图：自定义模型"><img class="cover" src="/Blog/img/Sys/TopArchive.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-06</div><div class="title">Qt 模型&#x2F;视图：自定义模型</div></div></a></div><div><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE/" title="Qt 模型&#x2F;视图：自定义视图"><img class="cover" src="/Blog/img/Sys/TopDefault.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-07</div><div class="title">Qt 模型&#x2F;视图：自定义视图</div></div></a></div><div><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A7%94%E6%89%98/" title="Qt 模型&#x2F;视图：自定义委托"><img class="cover" src="/Blog/img/Sys/TopAbout.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-07</div><div class="title">Qt 模型&#x2F;视图：自定义委托</div></div></a></div><div><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="Qt 模型&#x2F;视图：基本原理"><img class="cover" src="/Blog/img/Sys/TopDefault.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-05</div><div class="title">Qt 模型&#x2F;视图：基本原理</div></div></a></div><div><a href="/Blog/Qt/qsortfilterproxymodel/" title="QSortFilterProxyModel"><img class="cover" src="/Blog/img/Sys/TopAbout.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-08</div><div class="title">QSortFilterProxyModel</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/Blog/img/Sys/Head.jpg" onerror="this.onerror=null;this.src='/Blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">孟方方</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/Blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/Blog/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/Blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#QRegExp"><span class="toc-number">1.</span> <span class="toc-text">QRegExp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QRegExp-RegExp"><span class="toc-number">1.1.</span> <span class="toc-text">QRegExp::RegExp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QRegExp-Wildcard"><span class="toc-number">1.2.</span> <span class="toc-text">QRegExp::Wildcard</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#QRegExp-FixedString"><span class="toc-number">1.3.</span> <span class="toc-text">QRegExp::FixedString</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.4.</span> <span class="toc-text">使用示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QRegularExpression"><span class="toc-number">2.</span> <span class="toc-text">QRegularExpression</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/Blog/img/Sys/TopAbout.png')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By 孟方方</div><div class="footer_custom_text">自学用的网站</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/Blog/js/utils.js"></script><script src="/Blog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div></div></body></html>

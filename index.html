@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>孟方方的博客</title><meta name="keywords" content="编程"><meta name="author" content="孟方方"><meta name="copyright" content="孟方方"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="孟方方的博客">
+<meta property="og:url" content="https://gitee.com/miffy-fly/blog.git/index.html">
+<meta property="og:site_name" content="孟方方的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/miffy-fly/blog.git/img/Sys/Head.jpg">
+<meta property="article:author" content="孟方方">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/miffy-fly/blog.git/img/Sys/Head.jpg"><link rel="shortcut icon" href="/Blog/img/Sys/Head.jpg"><link rel="canonical" href="https://gitee.com/miffy-fly/blog.git/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/Blog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/Blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '孟方方的博客',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-10-14 23:57:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/Blog/img/Sys/Head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/Blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/Blog/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/Blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/Blog/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/Blog/img/Sys/TopDefault.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/Blog/">孟方方的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/Blog/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">孟方方的博客</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/Blog/Linux/linux%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/" title="Linux文件描述符"><img class="post_bg" src="/Blog/img/Sys/TopArchive.png" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="Linux文件描述符"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/Linux/linux%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/" title="Linux文件描述符">Linux文件描述符</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-12T16:00:00.000Z" title="发表于 2022-10-13 00:00:00">2022-10-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/Linux/">Linux</a></span></div><div class="content">文件描述符含义Linux中，一切皆文件。那么，程序怎么知道打开了哪个文件呢？方法是使用文件描述符（简称fd）。当进程打开一个现有文件或者创建一个新文件时，内核会向该进程返回一个文件描述符，用于对应打开/新建文件。这些fd保存在内核为每个进程维护的一个文件描述符表中。
+文件描述符这个概念只适应于Linux、unix这样的操作系统。
+
+标准C库的文件IO函数使用的文件指针FILE* 在Linux中也需要通过文件描述符的辅助才能完成读写操作。FILE其实是一个结构体，其内部有一个成员就是文件描述符。
+文件描述符表当一个进程启动，内核就会为进程维护一个对应的虚拟地址空间，这个虚拟地址空间分两个大部分，在内核区有专门用于进程管理的模块。Linux的进程控制块PCB，本质就是一个叫做task_struct，里面有管理进程所需要的各种信息，其中一个结构体叫做file，就是文件描述符表，里面有个整形索引表，用于存储fd。此表索引从0开始。
+123456struct task_struct //PCB&#123;    ...    struct file&#123;&#125; //文件描述符表    ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/Blog/Qt/qsortfilterproxymodel/" title="QSortFilterProxyModel"><img class="post_bg" src="/Blog/img/Sys/TopAbout.png" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="QSortFilterProxyModel"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/Qt/qsortfilterproxymodel/" title="QSortFilterProxyModel">QSortFilterProxyModel</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-07T16:00:00.000Z" title="发表于 2022-10-08 00:00:00">2022-10-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/Qt/">Qt</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/Blog/tags/Qt-Model-View/">Qt-Model/View</a></span></div><div class="content">简介QsortFilterProxyModel类用来为model和view之间提供强大的排序和过滤支持。如它的名字一般，它本身是一个模型，用于排序和筛选。但是它本身不保存任何数据。它的一个基本用法如下：
+12345QTreeView *treeView = new QTreeView;  MyItemModel *sourceModel = new MyItemModel(this);QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);proxyModel-&gt;setSourceModel(sourceModel); //将model放入代理中 treeView-&gt;setModel(proxyModel); //在视图中安装代理
+
+自定义排序自定义排序需要子类化QsortFilterProxyModel,然后重写lessThan()。
+如果重写了lessThan(),那么就不会再调用model的sort方法了.
+
+以下是一个例子：
+123456789101112131415161718bool ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/Blog/Qt/qt-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="Qt 正则表达式"><img class="post_bg" src="/Blog/img/Sys/TopAbout.png" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="Qt 正则表达式"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/Qt/qt-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="Qt 正则表达式">Qt 正则表达式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-07T16:00:00.000Z" title="发表于 2022-10-08 00:00:00">2022-10-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/Qt/">Qt</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/Blog/tags/Qt-Model-View/">Qt-Model/View</a></span></div><div class="content">QRegExpQt5.0之前版本，正则表达式是QRegExp。构造函数如下：
+1QRegExp::QRegExp(const QString &amp;pattern, Qt::CaseSensitivity cs = Qt::CaseSensitive, QRegExp::PatternSyntax syntax);
+其中QRegExp::PatternSyntax syntax用于解释模式含义的语法,默认选择QRegExp::RegExp。
+QRegExp::RegExp常见元字符:
+
+ .   匹配除换行符以外的任意字符
+\w  匹配字母或数字或下划线或汉字
+\s  匹配任意的空白符
+\d  匹配数字
+\b  匹配单词的开始或结束
+^   匹配字符串的开始
+$   匹配字符串的结束
+[] 匹配括号内输入的任意字符.    例如[123],只要是1, 2 ,3,12,23都满足
+() 表示一个集合,用于提取匹配的字符串,表达式中有几个()就有几个相应的匹配字符串。
+
+限定重复元字符:
+
+*   重复零次或更多次    例如, 1*2可以为任意数量个1(甚至没有), 后面跟一个2
++ ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE/" title="Qt 模型/视图：自定义视图"><img class="post_bg" src="/Blog/img/Sys/TopDefault.jpg" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="Qt 模型/视图：自定义视图"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE/" title="Qt 模型/视图：自定义视图">Qt 模型/视图：自定义视图</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-06T16:00:00.000Z" title="发表于 2022-10-07 00:00:00">2022-10-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/Qt/">Qt</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/Blog/tags/Qt-Model-View/">Qt-Model/View</a></span></div><div class="content">Qt常见视图类：QAbstractItemView、QListView、QTableView、QTreeView，但是这些类较为基础，当我们需要实现一些额外功能时，可自定义视图。
+自定义视图的基本原则
+视图需要自行绘制，通常在paintEvent()函数内完成，所以除了必须实现的纯虚函数外，paintEvent()也应重新实现。另外若需要对单元格进行重新绘制、更新滚动条等，还需要重新实现resizeEvent()函数。
+自定义视图需要完成显示的单元格的大小和位置的计算、单元格轮廓线的绘制、滚动的计算、对单元格的选择作出处理、若有必要还需要绘制标头。
+另外需要记住的是视图就是一个QFrame，也就是说直接使用show()显示视图，那么视图只是一个什么也没有的窗口而已，窗口中的内容需要由程序员设计，也就是说你也可以完全不继承QAbstractItemView类，而子类化QFrame类来实现视图中内容的绘制，当然这样会失去对QAbstractItemView类中由Qt已实现的内部函数的使用。
+
+
+QAbstractItemView中函数：
+1virtual void setSelection ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A7%94%E6%89%98/" title="Qt 模型/视图：自定义委托"><img class="post_bg" src="/Blog/img/Sys/TopAbout.png" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="Qt 模型/视图：自定义委托"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A7%94%E6%89%98/" title="Qt 模型/视图：自定义委托">Qt 模型/视图：自定义委托</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-06T16:00:00.000Z" title="发表于 2022-10-07 00:00:00">2022-10-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/Qt/">Qt</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/Blog/tags/Qt-Model-View/">Qt-Model/View</a></span></div><div class="content">QAbstractItemDelegate基本原理QAbstractItemDelegate继承自QObject，Qt中委托用于显示视图中的单个项目，并处理模型数据的编辑。QAbstractDelegate的子类QItemDelegate和QStyleItemDelegate是Qt提供的对QAbstractDelegate类的默认实现。
+若需要以自定义方式渲染项目，则必须重新实现paint()和sizeHint()函数。可使用如下两种方法实现自定义的编辑：1)、创建一个编辑器部件，并将其设置为项目的编辑器，此方法必须重新实现createEditor()函数，并使用setEditorData()函数从模型中获取数据用于编辑器，使用setModelData()把编辑器的内容写入模型中。2)、重新实现editorEvent()函数，直接处理用户事件。
+
+
+QAbstractItemDelegate类中的函数QAbstractItemDelegate类中的函数都是虚函数，这些函数的参数都附带有必要的信息，比如对于paint()函数的index参数，就是表示需要绘制的模型的索引，且index.d ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9E%8B/" title="Qt 模型/视图：自定义模型"><img class="post_bg" src="/Blog/img/Sys/TopArchive.png" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="Qt 模型/视图：自定义模型"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9E%8B/" title="Qt 模型/视图：自定义模型">Qt 模型/视图：自定义模型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-05T16:00:00.000Z" title="发表于 2022-10-06 00:00:00">2022-10-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/Qt/">Qt</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/Blog/tags/Qt-Model-View/">Qt-Model/View</a></span></div><div class="content">Qt提供了常用的模型：QStringListModel、QStandardItemModel、QFileSystemModel、QSqlQueryModel等，但是这些模型只能满足基础的使用需要，有时项目上需要实现额外的功能点，此时就需要自定义模型。
+通过Qt帮助文档可知，想要自定义模型，至少需要实现5个纯虚函数：index(), parent(),rowCount(), columnCount(),data()。如果你想通过表格更改原始数据，你还要实现：setData()。
+
+以下对常用函数进行解释：
+index()1virtual QModelIndex index(int row, int column, constQModelIndex &amp;parent = QModelIndex()) const;
+该函数用于为模型中的每个数据项创建索引，创建索引需要使用createIndex()函数，对于表格结构，只需向createIndex(row,column)函数传递当前数据项所在的行号、列号及使用的数据的指针即可；对于列表结构，则列号始终为0，其余同表格结构；对于树形结构，需 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="Qt 模型/视图：基本原理"><img class="post_bg" src="/Blog/img/Sys/TopDefault.jpg" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="Qt 模型/视图：基本原理"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="Qt 模型/视图：基本原理">Qt 模型/视图：基本原理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-04T16:00:00.000Z" title="发表于 2022-10-05 00:00:00">2022-10-05</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/Qt/">Qt</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/Blog/tags/Qt-Model-View/">Qt-Model/View</a></span></div><div class="content">简介Qt将视图和控制器组合在一起，从而形成模型/视图结构。模型直接与数据进行通信，并为视图和委托提供访问数据的接口。为了对用户的输入进行灵活的处理，Qt引入了委托Delegate(或代理)的概念，委托其实就是把用户输入的数据委托给Qt的某个部件处理，比如委托QSpinBox部件来处理用户输入的整数等。另外，委托还会绘制(或渲染)视图中的个别数据项。模型、视图、委托之间的通信使用Qt的信号和槽机制来完成。
+基本运作逻辑是：源数据由模型 (Model) 读取，然后在视图 (View) 组件上显示和编辑，在界面上编辑修改的数据又通过模型保存到源数据。Model/View结构将数据模型和用户界面分离开来，分别用不同的实现，是一种显示和编辑数据的有效结构，在处理大型数据时尤其明显。
+
+Qt对模型/视图结构的具体实现模型Qt使用抽象类QAbstractItemModel来描述模型，所有的模型都是通过子类化该抽像类而实现的。Qt实现了一些标准的现成模型，下面是简介：QStringListModel：用于存储QString项目的列表。QStandardItemModel：该模型可以被当作列表模型、表格 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/Blog/Qt/qt%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" title="Qt智能指针"><img class="post_bg" src="/Blog/img/Sys/TopArchive.png" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="Qt智能指针"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/Qt/qt%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" title="Qt智能指针">Qt智能指针</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-03T16:00:00.000Z" title="发表于 2022-10-04 00:00:00">2022-10-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/Qt/">Qt</a></span></div><div class="content">Qt原生支持C++的智能指针，还自己定义了Qt专用的智能指针。Qt中智能指针有QPointer、QSharedPointer、QScopedPointer、QWeakPointer、QSharedDataPointer、QScopedArrayPointer。
+QPointerQPointer是个被保护的指针，QPointer ，行为和常规的指针 T * 类似。当其指向的对象（T必须是QObject及其派生的类对象）被销毁时，它会被自动置NULL，但是它本身析构时不回自动销毁所保护的对象。当你需要保存其他人所拥有的QObject对象的指针时，这点非常有用。
+12345QPointer&lt;QLabel&gt; label = new QLabel; label-&gt;setText(&quot;&amp;Status:&quot;); ... if (label)     label-&gt;show();
+如果在...部分你将该对象delete掉了，label会自动置NULL，而不会是一个悬挂的野指针。
+
+
+常用方法123456789101112131415void clear( ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/Blog/Qt/qt%E4%B8%ADd%E6%8C%87%E9%92%88%E5%92%8Cq%E6%8C%87%E9%92%88/" title="Qt中d指针和q指针"><img class="post_bg" src="/Blog/img/Sys/TopArchive.png" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="Qt中d指针和q指针"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/Qt/qt%E4%B8%ADd%E6%8C%87%E9%92%88%E5%92%8Cq%E6%8C%87%E9%92%88/" title="Qt中d指针和q指针">Qt中d指针和q指针</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-02T16:00:00.000Z" title="发表于 2022-10-03 00:00:00">2022-10-03</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/Qt/">Qt</a></span></div><div class="content">Qt大量使用d指针和q指针，这里简单记录下用法以及原理。
+d指针d指针的作用d指针的作用有：隐藏接口具体实现，提高程序编译速度，最大程度实现程序的二进制兼容。
+二进制兼容指的是：
+
+二进制兼容动态库：在老版本的动态库上运行新的应用程序，在不经过编译的情况下，能够在新版本的动态库下运行；在需要编译的情况下不需要修改源码。
+要想使得dll能达到二进制兼容，对于类中对象/结构/数据都应该保持不变，如果类中的对象或者数据进行了改动，就会影响对象的数据结构，从而导致数据在数据模型中发生变化，程序使用新版本编译后会导致崩溃。
+为了使得增加项后不对数据模型的大小产生影响，方法1.预先分配若干保留空间， 后续添加数据均使用保留空间（使用位域定义：int n:20 设置该变量预先占用几个bit空间） 方法2.将预分配保留空间类型由“常规变量”-&gt;‘对象指针’。
+
+
+
+使用方式Q_DECLARE_PRIVATE(class) + Q_D(class)配合使用：Q_DECLARE_PRIVATE(class)的具体实现
+1234567891011template &lt;typename T&gt;  ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/Blog/C/%E5%8D%8F%E7%A8%8B/" title="协程"><img class="post_bg" src="/Blog/img/Sys/TopAbout.png" onerror="this.onerror=null;this.src='/Blog/img/404.jpg'" alt="协程"></a></div><div class="recent-post-info"><a class="article-title" href="/Blog/C/%E5%8D%8F%E7%A8%8B/" title="协程">协程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-24T16:00:00.000Z" title="发表于 2022-09-25 00:00:00">2022-09-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/Blog/categories/C/">C++</a></span></div><div class="content">什么是协程协程,英文名 是coroutine,点击查看官方定义，C++ 20已经支持，它是一种能够暂停和恢复执行的 函数。一个协程中必须要有co_wait、co_yield、或者co_return关键字（主函数是不能是协程的）。其返回类型需要有个可被公开访问的内部类型promise_type(可以是using/typedef而来)。
+
+未完待续。。。。。。
+</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/Blog/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/Blog/page/5/#content-inner">5</a><a class="extend next" rel="next" href="/Blog/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/Blog/img/Sys/Head.jpg" onerror="this.onerror=null;this.src='/Blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">孟方方</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/Blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/Blog/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/Blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><div class="sticky_layout"><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/Blog/categories/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">11</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/Blog/categories/Linux/"><span class="card-category-list-name">Linux</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/Blog/categories/Qt/"><span class="card-category-list-name">Qt</span><span class="card-category-list-count">17</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/Blog/tags/C-11/" style="font-size: 1.45em; color: rgb(54, 74, 142)">C++11</a><a href="/Blog/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.15em; color: rgb(135, 34, 150)">算法</a><a href="/Blog/tags/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 1.33em; color: rgb(168, 28, 28)">C++多线程</a><a href="/Blog/tags/git/" style="font-size: 1.15em; color: rgb(2, 135, 9)">git</a><a href="/Blog/tags/hexo/" style="font-size: 1.27em; color: rgb(45, 179, 52)">hexo</a><a href="/Blog/tags/inno-setup/" style="font-size: 1.15em; color: rgb(33, 169, 12)">inno setup</a><a href="/Blog/tags/Qt-Model-View/" style="font-size: 1.39em; color: rgb(29, 151, 19)">Qt-Model/View</a><a href="/Blog/tags/Qt%E4%BF%A1%E5%8F%B7%E6%A7%BD/" style="font-size: 1.15em; color: rgb(168, 189, 87)">Qt信号槽</a><a href="/Blog/tags/Qt%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 1.21em; color: rgb(139, 0, 65)">Qt多线程</a></div></div></div></div></main><footer id="footer" style="background-image: url('/Blog/img/Sys/TopDefault.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By 孟方方</div><div class="footer_custom_text">自学用的网站</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/Blog/js/utils.js"></script><script src="/Blog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div></div></body></html>

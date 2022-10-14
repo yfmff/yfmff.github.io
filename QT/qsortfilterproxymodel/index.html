@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>QSortFilterProxyModel | 孟方方的博客</title><meta name="keywords" content="Qt-Model/View"><meta name="author" content="孟方方"><meta name="copyright" content="孟方方"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简介QsortFilterProxyModel类用来为model和view之间提供强大的排序和过滤支持。如它的名字一般，它本身是一个模型，用于排序和筛选。但是它本身不保存任何数据。它的一个基本用法如下： 12345QTreeView *treeView &#x3D; new QTreeView;  MyItemModel *sourceModel &#x3D; new MyItemModel(this);QSortF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QSortFilterProxyModel">
+<meta property="og:url" content="https://gitee.com/miffy-fly/blog.git/Qt/qsortfilterproxymodel/index.html">
+<meta property="og:site_name" content="孟方方的博客">
+<meta property="og:description" content="简介QsortFilterProxyModel类用来为model和view之间提供强大的排序和过滤支持。如它的名字一般，它本身是一个模型，用于排序和筛选。但是它本身不保存任何数据。它的一个基本用法如下： 12345QTreeView *treeView &#x3D; new QTreeView;  MyItemModel *sourceModel &#x3D; new MyItemModel(this);QSortF">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/miffy-fly/blog.git/img/Sys/TopAbout.png">
+<meta property="article:published_time" content="2022-10-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-08T12:22:48.411Z">
+<meta property="article:author" content="孟方方">
+<meta property="article:tag" content="Qt-Model&#x2F;View">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/miffy-fly/blog.git/img/Sys/TopAbout.png"><link rel="shortcut icon" href="/Blog/img/Sys/Head.jpg"><link rel="canonical" href="https://gitee.com/miffy-fly/blog.git/Qt/qsortfilterproxymodel/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/Blog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/Blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'QSortFilterProxyModel',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-08 20:22:48'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/Blog/img/Sys/Head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/Blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/Blog/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/Blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/Blog/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/Blog/img/Sys/TopAbout.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/Blog/">孟方方的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/Blog/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">QSortFilterProxyModel</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2022-10-07T16:00:00.000Z" title="发表于 2022-10-08 00:00:00">2022-10-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/Blog/categories/Qt/">Qt</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>QsortFilterProxyModel</code>类用来为model和view之间提供强大的排序和过滤支持。如它的名字一般，它本身是一个模型，用于排序和筛选。但是它本身<code>不保存任何数据</code>。它的一个基本用法如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">QTreeView *treeView = <span class="keyword">new</span> QTreeView;  </span><br><span class="line">MyItemModel *sourceModel = <span class="keyword">new</span> <span class="built_in">MyItemModel</span>(<span class="keyword">this</span>);</span><br><span class="line">QSortFilterProxyModel *proxyModel = <span class="keyword">new</span> <span class="built_in">QSortFilterProxyModel</span>(<span class="keyword">this</span>);</span><br><span class="line">proxyModel-&gt;<span class="built_in">setSourceModel</span>(sourceModel); <span class="comment">//将model放入代理中 </span></span><br><span class="line">treeView-&gt;<span class="built_in">setModel</span>(proxyModel); <span class="comment">//在视图中安装代理</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义排序"><a href="#自定义排序" class="headerlink" title="自定义排序"></a>自定义排序</h2><p>自定义排序需要子类化QsortFilterProxyModel,然后重写<code>lessThan()</code>。</p>
+<div class="note warning flat"><p>如果重写了lessThan(),那么就<code>不会再调用</code>model的sort方法了.</p>
+</div>
+<p>以下是一个例子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SortFilterProxyModel::lessThan</span><span class="params">(<span class="type">const</span> QModelIndex &amp;source_left, <span class="type">const</span> QModelIndex &amp;source_right)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//通过当前视图中的index位置获取model中实际的数据</span></span><br><span class="line">    QVariant leftData = <span class="built_in">sourceModel</span>()-&gt;<span class="built_in">data</span>(source_left);</span><br><span class="line">    QVariant rightData = <span class="built_in">sourceModel</span>()-&gt;<span class="built_in">data</span>(source_right);</span><br><span class="line">    <span class="keyword">switch</span> ( source_left.<span class="built_in">column</span>() )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span> :     <span class="comment">//序号,需要判断数字</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span> :     <span class="comment">//信号ID,需要判断数字</span></span><br><span class="line">            <span class="keyword">return</span> leftData.<span class="built_in">toInt</span>() &lt; rightData.<span class="built_in">toInt</span>();</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span> :    <span class="comment">//其它,只判断字符串</span></span><br><span class="line">            <span class="keyword">return</span> leftData.<span class="built_in">toString</span>() &lt; rightData.<span class="built_in">toString</span>();</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了排序外，QSortFilterProxyModel还可以用来隐藏与某个过滤器不匹配的项。使用QRegExp对象指定筛选器，并将筛选器应用于给定列的每个项的filterRole() （默认情况下为Qt::DisplayRole）。QRegExp对象可用于匹配正则表达式、通配符模式或固定字符串。</p>
+<h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h2><p>QSortFilterProxyModel提供了丰富的函数用于过滤，我们可以根据需要选择。</p>
+<h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><p>使用<code>setFilterKeyColumn()</code>过滤列。<br>通过<code>void QsortFilterProxyModel::setFilterRegExp(const QRegExp &amp;regExp)</code>来设置<code>FilterProxyModel</code>的过滤器.<br>通过<code>QsortFilterProxyModel::setFilterKeyColumn(int)</code>来过滤某一列.<br>如果要更改大小写匹配,可以通过<code>QsortFilterProxyModel::sortCaseSensitivity()</code>来设置。<br>示例代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">QTableView *view = <span class="keyword">new</span> QTableView;   </span><br><span class="line">MyItemModel *sourceModel = <span class="keyword">new</span> <span class="built_in">MyItemModel</span>(<span class="keyword">this</span>);</span><br><span class="line">QSortFilterProxyModel *proxyModel = <span class="keyword">new</span> <span class="built_in">QSortFilterProxyModel</span>(<span class="keyword">this</span>);</span><br><span class="line">proxyModel-&gt;<span class="built_in">setSourceModel</span>(sourceModel); <span class="comment">//将model放入代理中   </span></span><br><span class="line">view-&gt;<span class="built_in">setModel</span>(proxyModel);             <span class="comment">//在视图中安装代理</span></span><br><span class="line"></span><br><span class="line"><span class="function">QRegExp <span class="title">regExp</span><span class="params">(<span class="string">&quot;^(-?\\d+)(\\.\\d+)?$&quot;</span>, Qt::CaseSensitive, QRegExp::RegExp)</span></span>;</span><br><span class="line"><span class="comment">//通过^(-?\d+)(\.\d+)?$来匹配整数</span></span><br><span class="line">proxyModel-&gt;<span class="built_in">setFilterRegExp</span>(regExp);   <span class="comment">//安装过滤器</span></span><br><span class="line"></span><br><span class="line">proxyModel-&gt;<span class="built_in">setFilterKeyColumn</span>(<span class="number">0</span>);    </span><br><span class="line">proxyModel-&gt;<span class="built_in">setFilterKeyColumn</span>(<span class="number">2</span>);    <span class="comment">//将第一列和第三列同时是整数的数据显示出来.</span></span><br></pre></td></tr></table></figure>
+<div class="note warning flat"><p>这样只能”与方式”显示model,要第一列和第三列公共是整数的才能显示出来,不能实现”或方式”显示。</p>
+</div>
+<h3 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h3><p>以实现”只要第一列有整数<code>或者</code>第三列有整数的都显示出来”为例,首先需要子类化QsortFilterProxyModel类,然后重写<code>filterAcceptsRow()</code>或者<code>filterAcceptsColumn()</code>函数.<br>由于筛选第一列和第三列,列号是明确的,而行号是未知的, 所以我们只重写filterAcceptsRow()函数。<br>示例代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SortFilterProxyModel::filterAcceptsRow</span><span class="params">(<span class="type">int</span> source_row, <span class="type">const</span> QModelIndex &amp;source_parent)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;    <span class="comment">//获取model中实际的数据</span></span><br><span class="line">    QString dataColumn1 =  <span class="built_in">sourceModel</span>()-&gt;<span class="built_in">index</span>(source_row, <span class="number">0</span>, source_parent).<span class="built_in">data</span>(Qt::DisplayRole).<span class="built_in">toString</span>();</span><br><span class="line">    QString dataColumn3 =  <span class="built_in">sourceModel</span>()-&gt;<span class="built_in">index</span>(source_row, <span class="number">2</span>, source_parent).<span class="built_in">data</span>(Qt::DisplayRole).<span class="built_in">toString</span>();</span><br><span class="line">    <span class="keyword">if</span>(dataColumn1.<span class="built_in">contains</span>(<span class="keyword">this</span>-&gt;<span class="built_in">filterRegExp</span>()))     </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(dataColumn3.<span class="built_in">contains</span>(<span class="keyword">this</span>-&gt;<span class="built_in">filterRegExp</span>())) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后创建SortFilterProxyModel类时,只需要安装过滤器即可:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SortFilterProxyModel *proxyModel = <span class="keyword">new</span> <span class="built_in">SortFilterProxyModel</span>();</span><br><span class="line">proxyModel-&gt;<span class="built_in">setSourceModel</span>(sourceModel);            <span class="comment">//将model放入代理中   </span></span><br><span class="line">treeView-&gt;<span class="built_in">setModel</span>(proxyModel);                     <span class="comment">//在视图中安装代理</span></span><br><span class="line">proxyModel-&gt;<span class="built_in">setFilterRegExp</span>(<span class="string">&quot;^(-?\\d+)(\\.\\d+)?$&quot;</span>); <span class="comment">//安装过滤器</span></span><br></pre></td></tr></table></figure>
+<p>每当过滤格式改变,则<code>setFilterRegExp()</code>重新更新过滤器即可。</p>
+<div class="note warning flat"><p>如果过滤方式改变了,比如从过滤第1列变成了过滤第2列,需要调用<code>invalidateFilter()</code>函数,使之前的过滤失效,激活当前过滤。</p>
+</div></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/Blog/tags/Qt-Model-View/">Qt-Model/View</a></div><div class="post_share"><div class="social-share" data-image="/Blog/img/Sys/TopAbout.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/Blog/Linux/linux%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/"><img class="prev-cover" src="/Blog/img/Sys/TopArchive.png" onerror="onerror=null;src='/Blog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux文件描述符</div></div></a></div><div class="next-post pull-right"><a href="/Blog/Qt/qt-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><img class="next-cover" src="/Blog/img/Sys/TopAbout.png" onerror="onerror=null;src='/Blog/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Qt 正则表达式</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9E%8B/" title="Qt 模型&#x2F;视图：自定义模型"><img class="cover" src="/Blog/img/Sys/TopArchive.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-06</div><div class="title">Qt 模型&#x2F;视图：自定义模型</div></div></a></div><div><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%86%E5%9B%BE/" title="Qt 模型&#x2F;视图：自定义视图"><img class="cover" src="/Blog/img/Sys/TopDefault.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-07</div><div class="title">Qt 模型&#x2F;视图：自定义视图</div></div></a></div><div><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A7%94%E6%89%98/" title="Qt 模型&#x2F;视图：自定义委托"><img class="cover" src="/Blog/img/Sys/TopAbout.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-07</div><div class="title">Qt 模型&#x2F;视图：自定义委托</div></div></a></div><div><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="Qt 模型&#x2F;视图：基本原理"><img class="cover" src="/Blog/img/Sys/TopDefault.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-05</div><div class="title">Qt 模型&#x2F;视图：基本原理</div></div></a></div><div><a href="/Blog/Qt/qt-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="Qt 正则表达式"><img class="cover" src="/Blog/img/Sys/TopAbout.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-08</div><div class="title">Qt 正则表达式</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/Blog/img/Sys/Head.jpg" onerror="this.onerror=null;this.src='/Blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">孟方方</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/Blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/Blog/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/Blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">自定义排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%951"><span class="toc-number">3.1.</span> <span class="toc-text">方法1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%952"><span class="toc-number">3.2.</span> <span class="toc-text">方法2</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/Blog/img/Sys/TopAbout.png')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By 孟方方</div><div class="footer_custom_text">自学用的网站</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/Blog/js/utils.js"></script><script src="/Blog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div></div></body></html>

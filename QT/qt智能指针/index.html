@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Qt智能指针 | 孟方方的博客</title><meta name="keywords" content="编程"><meta name="author" content="孟方方"><meta name="copyright" content="孟方方"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Qt原生支持C++的智能指针，还自己定义了Qt专用的智能指针。Qt中智能指针有QPointer、QSharedPointer、QScopedPointer、QWeakPointer、QSharedDataPointer、QScopedArrayPointer。 QPointerQPointer是个被保护的指针，QPointer ，行为和常规的指针 T * 类似。当其指向的对象（T必须是QObjec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt智能指针">
+<meta property="og:url" content="https://gitee.com/miffy-fly/blog.git/Qt/qt%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/index.html">
+<meta property="og:site_name" content="孟方方的博客">
+<meta property="og:description" content="Qt原生支持C++的智能指针，还自己定义了Qt专用的智能指针。Qt中智能指针有QPointer、QSharedPointer、QScopedPointer、QWeakPointer、QSharedDataPointer、QScopedArrayPointer。 QPointerQPointer是个被保护的指针，QPointer ，行为和常规的指针 T * 类似。当其指向的对象（T必须是QObjec">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/miffy-fly/blog.git/img/Sys/TopArchive.png">
+<meta property="article:published_time" content="2022-10-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-11T13:24:35.798Z">
+<meta property="article:author" content="孟方方">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/miffy-fly/blog.git/img/Sys/TopArchive.png"><link rel="shortcut icon" href="/Blog/img/Sys/Head.jpg"><link rel="canonical" href="https://gitee.com/miffy-fly/blog.git/Qt/qt%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/Blog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/Blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Qt智能指针',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-11 21:24:35'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/Blog/img/Sys/Head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/Blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/Blog/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/Blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/Blog/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/Blog/img/Sys/TopArchive.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/Blog/">孟方方的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/Blog/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/Blog/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Qt智能指针</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2022-10-03T16:00:00.000Z" title="发表于 2022-10-04 00:00:00">2022-10-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/Blog/categories/Qt/">Qt</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Qt原生支持C++的智能指针，还自己定义了Qt专用的智能指针。Qt中智能指针有QPointer、QSharedPointer、QScopedPointer、QWeakPointer、QSharedDataPointer、QScopedArrayPointer。</p>
+<h2 id="QPointer"><a href="#QPointer" class="headerlink" title="QPointer"></a>QPointer</h2><p><code>QPointer</code>是个被保护的指针，QPointer<T> ，行为和常规的指针 <code>T *</code> 类似。当其指向的对象（T必须是QObject及其派生的类对象）被销毁时，它会被自动置NULL，但是它本身析构时不回自动销毁所保护的对象。当你需要保存其他人所拥有的QObject对象的指针时，这点非常有用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">QPointer&lt;QLabel&gt; label = <span class="keyword">new</span> QLabel;</span><br><span class="line"> label-&gt;<span class="built_in">setText</span>(<span class="string">&quot;&amp;Status:&quot;</span>);</span><br><span class="line"> ...</span><br><span class="line"> <span class="keyword">if</span> (label)</span><br><span class="line">     label-&gt;<span class="built_in">show</span>();</span><br></pre></td></tr></table></figure>
+<div class="note default flat"><p>如果在<code>...</code>部分你将该对象delete掉了，label会自动置NULL，而不会是一个悬挂的野指针。</p>
+</div>
+
+<h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">clear</span><span class="params">()</span> <span class="comment">// 清空</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">T *<span class="title">data</span><span class="params">()</span> <span class="type">const</span> <span class="comment">// 取出原始指针，不要删除</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isNull</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(QPointer&lt;T&gt; &amp;other)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">T *<span class="keyword">operator</span> T *<span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">T &amp;<span class="keyword">operator</span>*<span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">T *<span class="keyword">operator</span>-&gt;<span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">QPointer&lt;T&gt; &amp;<span class="keyword">operator</span></span>=(T *p)</span><br></pre></td></tr></table></figure>
+
+<h2 id="QSharedPointer"><a href="#QSharedPointer" class="headerlink" title="QSharedPointer"></a>QSharedPointer</h2><p><code>QSharedPointer</code>类似C++中的``std::shared_ptr`共享指针。QSharedPointer可从普通指针、另一个QSharedPointer对象创建，也可通过将QWeakPointer对象提升为强引用创建。</p>
+<div class="note danger flat"><p><code>QSharedPointer</code>是线程安全的，即使有多个线程同时修改QSharedPointer对象也不需要加锁。虽然它是线程安全的，但是它指向的内存区域可不一定是线程安全的。所以多个线程同时修改QSharedPointer指向的数据时还要应该考虑加锁的。通常一个给定的<code>QSharedPointer</code>或<code>QWeakPointer</code>对象不能被多个线程在没有同步的情况下同时访问。</p>
+</div>
+
+<h3 id="常用方法-1"><a href="#常用方法-1" class="headerlink" title="常用方法"></a>常用方法</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">QSharedPointer</span>(<span class="type">const</span> QWeakPointer&lt;T&gt; &amp;other) <span class="comment">// 用弱指针构造</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">QSharedPointer</span>(<span class="type">const</span> QSharedPointer&lt;T&gt; &amp;other) <span class="comment">// 用其他共享指针构造，增加引用计数</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">QSharedPointer</span>(std::<span class="type">nullptr_t</span>, Deleter d)  <span class="comment">// 构造出空的共享指针</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">QSharedPointer</span>(std::<span class="type">nullptr_t</span>) <span class="comment">// 构造出空的共享指针</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">QSharedPointer</span>(X *ptr, Deleter d) <span class="comment">// 用普通指针构造，指定删除器</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">QSharedPointer</span>(X *ptr) <span class="comment">// 用普通指针构造</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">QSharedPointer</span>()</span><br><span class="line"></span><br><span class="line">QSharedPointer&lt;T&gt; &amp;<span class="keyword">operator</span>=(<span class="type">const</span> QWeakPointer&lt;T&gt; &amp;other)</span><br><span class="line"></span><br><span class="line">QSharedPointer&lt;T&gt; &amp;<span class="keyword">operator</span>=(<span class="type">const</span> QSharedPointer&lt;T&gt; &amp;other)</span><br><span class="line"></span><br><span class="line">~<span class="built_in">QSharedPointer</span>()</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="built_in">clear</span>() <span class="comment">//清除这个QSharedPointer对象，删除它可能对该指针的引用。如果这是最后一个引用，那么指针本身将被删除。</span></span><br><span class="line"></span><br><span class="line">QSharedPointer&lt;X&gt; <span class="built_in">constCast</span>() <span class="type">const</span> <span class="comment">//将该指针的类型进行const_cast转换为X，并返回共享该引用的QSharedPointer。此函数可用于向上和向下类型转换，但对于向上类型转换更有用。</span></span><br><span class="line"></span><br><span class="line">T *<span class="built_in">data</span>() <span class="type">const</span> <span class="comment">//返回此对象所引用的指针的值，不可删除这个函数返回的指针</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行从该指针的类型到X的动态转换，并返回一个共享引用的QSharedPointer。如果这个函数被用于向上转换，那么QSharedPointer将执行dynamic_cast，这意味着如果QSharedPointer指向的对象不是X类型，那么返回的对象将是空的。</span></span><br><span class="line"><span class="comment">// 特别说明：模板类型X必须具有与该对象的模板相同的const和volatile限定符，否则强制转换将失败。如果需要删除这些限定符，需使用constCast()。</span></span><br><span class="line">QSharedPointer&lt;X&gt; <span class="built_in">dynamicCast</span>() <span class="type">const</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ​ 执行从该指针的类型到X的静态转换，并返回一个共享该引用的QSharedPointer。此函数可用于向上和向下类型转换，但对于向上类型转换更有用。</span></span><br><span class="line"><span class="comment">//​ 注意：模板类型X必须具有与该对象的模板相同的const和volatile限定符，否则强制转换将失败。如果需要删除这些限定符，请使用constCast()，这一点和dynamicCast（）一样。</span></span><br><span class="line">QSharedPointer&lt;X&gt; <span class="built_in">staticCast</span>() <span class="type">const</span></span><br><span class="line"></span><br><span class="line">T *<span class="built_in">get</span>() <span class="type">const</span> <span class="comment">// 和data类似</span></span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="built_in">isNull</span>() <span class="type">const</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//​ 从该指针的类型执行qobject_cast()到X，并返回共享该引用的QSharedPointer。如果这个函数被用于向上转换，那么QSharedPointer将执行qobject_cast，这意味着如果QSharedPointer指向的对象不是X类型，那么返回的对象将是空的</span></span><br><span class="line">QSharedPointer&lt;X&gt; <span class="built_in">objectCast</span>() <span class="type">const</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="built_in">reset</span>()</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="built_in">reset</span>(T *t) <span class="comment">//将QSharedPointer对象重置为指向t。</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="built_in">reset</span>(T *t, Deleter deleter) <span class="comment">//将QSharedPointer对象重置为指向t。</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="built_in">swap</span>(QSharedPointer&lt;T&gt; &amp;other)</span><br><span class="line"></span><br><span class="line">QWeakPointer&lt;T&gt; <span class="built_in">toWeakRef</span>() <span class="type">const</span></span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="keyword">operator</span> <span class="built_in">bool</span>() <span class="type">const</span></span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="keyword">operator</span>!() <span class="type">const</span></span><br><span class="line"></span><br><span class="line">T &amp;<span class="keyword">operator</span>*() <span class="type">const</span></span><br><span class="line"></span><br><span class="line">T *<span class="keyword">operator</span>-&gt;() <span class="type">const</span></span><br></pre></td></tr></table></figure>
+<h2 id="QScopedPointer"><a href="#QScopedPointer" class="headerlink" title="QScopedPointer"></a>QScopedPointer</h2><p><code>QScopedPointer</code>类似于C++ 11中的<code>std::uniqueptr</code>。当内存数据只在一处被使用，用完就可以安全的释放时就可以使用QScopedPointer。<br>​QScopedPointer只是持有一个指向堆分配对象的指针，并在其析构函数中删除它。当一个对象需要分配和删除堆时，这个类很有用，但仅此而已。QScopedPointer是轻量级的，它不使用额外的结构或引用计数。注意：因为拷贝构造和赋值操作私有的，它不能用作容器的元素。</p>
+<h3 id="常用方法-2"><a href="#常用方法-2" class="headerlink" title="常用方法"></a>常用方法</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造函数</span></span><br><span class="line"><span class="built_in">QScopedPointer</span>(T *p = ...)</span><br><span class="line">~<span class="built_in">QScopedPointer</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取出原始指针，不可删除</span></span><br><span class="line"><span class="function">T *<span class="title">take</span><span class="params">()</span></span></span><br><span class="line"><span class="function">T *<span class="title">data</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function">T *<span class="title">get</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// 状态相关</span></span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isNull</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">reset</span><span class="params">(T *other = ...)</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(QScopedPointer&lt;T, Cleanup&gt; &amp;other)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// 运算符</span></span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="keyword">operator</span> <span class="title">bool</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="keyword">operator</span>!<span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function">T &amp;<span class="keyword">operator</span>*<span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function">T *<span class="keyword">operator</span>-&gt;<span class="params">()</span> <span class="type">const</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="QWeakPointer"><a href="#QWeakPointer" class="headerlink" title="QWeakPointer"></a>QWeakPointer</h2><p>​<code>QWeakPointer</code>类似C++ 11中的弱指针。它不能用于直接解引用指针，但可以用于验证指针是否在另一个上下文中被删除。它是为配合<code>QSharedPointer</code>而引入的一种智能指针，它更像是 QSharedPointer 的一个助手(因为它不具有普通指针的行为，没有重载operator*和-&gt;)。它的最大作用在于协助<code>QSharedPointer</code>工作，像一个旁观者一样来观测资源的使用情况。</p>
+<div class="note warning flat"><p>​QWeakPointer对象只能通过QSharedPointer赋值来创建。QWeakPointer没有提供自动强制转换操作符来防止错误的发生。即使QWeakPointer跟踪一个指针，它也不应该被视为指针本身，因为它不能保证所指向的对象仍然有效。​因此，要访问QWeakPointer正在跟踪的指针，必须首先将其提升为QSharedPointer，并验证结果对象是否为空。</p>
+</div>
+<h3 id="常用方法-3"><a href="#常用方法-3" class="headerlink" title="常用方法"></a>常用方法</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造</span></span><br><span class="line"><span class="built_in">QWeakPointer</span>(<span class="type">const</span> QSharedPointer&lt;T&gt; &amp;other)</span><br><span class="line"><span class="built_in">QWeakPointer</span>(<span class="type">const</span> QWeakPointer&lt;T&gt; &amp;other)</span><br><span class="line"><span class="built_in">QWeakPointer</span>()</span><br><span class="line"></span><br><span class="line">QWeakPointer&lt;T&gt; &amp;<span class="keyword">operator</span>=(<span class="type">const</span> QSharedPointer&lt;T&gt; &amp;other)</span><br><span class="line">QWeakPointer&lt;T&gt; &amp;<span class="keyword">operator</span>=(<span class="type">const</span> QWeakPointer&lt;T&gt; &amp;other)</span><br><span class="line">~<span class="built_in">QWeakPointer</span>()</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="built_in">clear</span>()</span><br><span class="line"><span class="type">bool</span> <span class="built_in">isNull</span>() <span class="type">const</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 提升至QSharedPointer，增加引用计数</span></span><br><span class="line">QSharedPointer&lt;T&gt; <span class="built_in">lock</span>() <span class="type">const</span></span><br><span class="line">QSharedPointer&lt;T&gt; <span class="built_in">toStrongRef</span>() <span class="type">const</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="built_in">swap</span>(QWeakPointer&lt;T&gt; &amp;other)</span><br><span class="line"><span class="type">bool</span> <span class="keyword">operator</span> <span class="built_in">bool</span>() <span class="type">const</span></span><br><span class="line"><span class="type">bool</span> <span class="keyword">operator</span>!() <span class="type">const</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="QSharedDataPointer"><a href="#QSharedDataPointer" class="headerlink" title="QSharedDataPointer"></a>QSharedDataPointer</h2><p><code>QSharedDataPointer</code>​ 这个类帮我们实现数据的隐式共享。它持有一个指向共享数据的指针(即，从<code>QSharedData</code>派生的类)。它通过放置在<code>QSharedData</code>基类中的内部引用计数来实现这一点。因此，这个类可以根据对被保护的数据的访问类型进行分离:如果是非const访问，它会自动创建一个副本以完成操作。</p>
+<h2 id="QScopedArrayPointer"><a href="#QScopedArrayPointer" class="headerlink" title="QScopedArrayPointer"></a>QScopedArrayPointer</h2><p>​如果我们指向的内存数据是一个数组，这时可以用 QScopedArrayPointer。QScopedArrayPointer 与 QScopedPointer 类似，用于简单的场景。<br>例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QScopedArrayPointer&lt;<span class="type">int</span>&gt; <span class="title">myarr</span> <span class="params">(<span class="keyword">new</span> <span class="type">int</span>[<span class="number">10</span>])</span></span>;</span><br><span class="line">    myarr[<span class="number">2</span>]=<span class="number">42</span>;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span>; <span class="comment">// 出作用域后会析构myarr</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/Blog/img/Sys/TopArchive.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/Blog/Qt/qt-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE%EF%BC%9A%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/"><img class="prev-cover" src="/Blog/img/Sys/TopDefault.jpg" onerror="onerror=null;src='/Blog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Qt 模型/视图：基本原理</div></div></a></div><div class="next-post pull-right"><a href="/Blog/Qt/qt%E4%B8%ADd%E6%8C%87%E9%92%88%E5%92%8Cq%E6%8C%87%E9%92%88/"><img class="next-cover" src="/Blog/img/Sys/TopArchive.png" onerror="onerror=null;src='/Blog/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Qt中d指针和q指针</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/Blog/img/Sys/Head.jpg" onerror="this.onerror=null;this.src='/Blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">孟方方</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/Blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/Blog/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/Blog/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#QPointer"><span class="toc-number">1.</span> <span class="toc-text">QPointer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">常用方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QSharedPointer"><span class="toc-number">2.</span> <span class="toc-text">QSharedPointer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-1"><span class="toc-number">2.1.</span> <span class="toc-text">常用方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QScopedPointer"><span class="toc-number">3.</span> <span class="toc-text">QScopedPointer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-2"><span class="toc-number">3.1.</span> <span class="toc-text">常用方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QWeakPointer"><span class="toc-number">4.</span> <span class="toc-text">QWeakPointer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-3"><span class="toc-number">4.1.</span> <span class="toc-text">常用方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QSharedDataPointer"><span class="toc-number">5.</span> <span class="toc-text">QSharedDataPointer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QScopedArrayPointer"><span class="toc-number">6.</span> <span class="toc-text">QScopedArrayPointer</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/Blog/img/Sys/TopArchive.png')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By 孟方方</div><div class="footer_custom_text">自学用的网站</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/Blog/js/utils.js"></script><script src="/Blog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div></div></body></html>
