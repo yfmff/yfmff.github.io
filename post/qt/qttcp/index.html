@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)" />
+<meta name="generator" content="Hugo 0.104.3" />
+<link rel="shortcut icon" type="image/x-icon" href="/sys/favor.jpg">
+<link rel="icon" type="image/x-icon" href="/sys/favor.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="/sys/favor.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="/sys/favor.jpg">
+<link rel="apple-touch-icon" sizes="180x180" href="/sys/favor.jpg">
+<meta itemprop="name" content="QtTcp" />
+<meta itemprop="description" content="" />
+<meta itemprop="datePublished" ZgotmplZ />
+<meta itemprop="dateModified" ZgotmplZ />
+<meta itemprop="image" content="https://github.com/sys/head.jpg" />
+<meta itemprop="keywords" content="" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="QtTcp" />
+<meta property="og:description" content="" />
+<meta property="og:image" content="/sys/head.jpg" />
+<meta property="og:image:width" content="312" />
+<meta property="og:image:height" content="312" />
+<meta property="og:image:type" content="image/jpeg/png/svg/jpg" />
+<meta property="og:url" content="https://github.com/yfmff/yfmff.github.io.git/post/qt/qttcp/"/>
+<meta property="og:site_name" content="孟方方的博客" />
+<meta property="og:locale" content="zh-CN"/>
+<meta property="article:author" content="孟方方" />
+<meta property="article:published_time" content="2022-01-05 00:00:00 &#43;0000 UTC" />
+<meta property="article:modified_time" content="2022-01-05 00:00:00 &#43;0000 UTC" />
+
+
+  
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.1.2/css/all.min.css" />
+  
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" />
+
+
+<link rel="stylesheet" href="/yfmff/yfmff.github.io.git/css/main.min.c443fa3d6006bbe686c787cccb9273c628499f2cc10d7ab4712962d7eedb3f58.css">
+  <style type="text/css">
+    .post-footer, .flinks-list-footer hr:after {
+      content: "~ 我可是有底线的哟 ~";
+    }
+  </style>
+  <script class="next-config" data-name="page" type="application/json">{"comments":false,"isHome":false,"isPage":true,"path":"qttcp","permalink":"https://github.com/yfmff/yfmff.github.io.git/post/qt/qttcp/","title":"QtTcp"}</script>
+  <script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', () => {
+    var script = document.createElement('script');
+      
+    script.charset = "UTF-8";
+    script.src     = "https:\/\/busuanzi.ibruce.info\/busuanzi\/2.3\/busuanzi.pure.mini.js";
+    script.async   = "true"
+
+    document.head.appendChild(script);
+  });
+</script>
+
+
+
+
+  <title>QtTcp - 孟方方的博客</title>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage"  class="use-motion" >
+  <div class="headband"></div>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">孟方方的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+    
+      <p class="site-subtitle" itemprop="description">新的一天，开始了</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+      
+      <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+    <li class="menu-item menu-item-home">
+      <a href="/yfmff/yfmff.github.io.git/" class="hvr-icon-pulse " rel="section"><i class="fa fa-home hvr-icon"></i>首页
+      </a>
+    </li>
+    <li class="menu-item menu-item-about">
+      <a href="/yfmff/yfmff.github.io.git/about.html" class="hvr-icon-pulse " rel="section"><i class="fa fa-user hvr-icon"></i>关于
+      </a>
+    </li>
+    <li class="menu-item menu-item-archives">
+      <a href="/yfmff/yfmff.github.io.git/archives/" class="hvr-icon-pulse " rel="section"><i class="fa fa-archive hvr-icon"></i>归档
+        <span class="badge">42</span>
+      </a>
+    </li>
+    <li class="menu-item menu-item-search">
+      <a role="button" class="popup-trigger hvr-icon-pulse"><i class="fa fa-search fa-fw hvr-icon"></i>搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+    </div>
+  </div>
+      </div>
+      <div class="toggle sidebar-toggle" role="button">
+  <span class="toggle-line"></span>
+  <span class="toggle-line"></span>
+  <span class="toggle-line"></span>
+</div>
+<aside class="sidebar">
+  
+  <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-toc">
+        文章目录
+      </li>
+      <li class="sidebar-nav-overview">
+        站点概览
+      </li>
+    </ul>
+    <div class="sidebar-panel-container">
+      
+      <div class="post-toc-wrap sidebar-panel">
+        <div class="post-toc animated"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#qtcpserver">QTcpServer</a></li>
+    <li><a href="#qtcpsocket">QTcpSocket</a></li>
+    <li><a href="#通信流程">通信流程</a>
+      <ul>
+        <li><a href="#服务端">服务端</a></li>
+        <li><a href="#客户端">客户端</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div>
+      
+      <div class="site-overview-wrap sidebar-panel">
+<div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="孟方方"
+      src="/sys/head.jpg">
+  <p class="site-author-name" itemprop="name">孟方方</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+    <div class="site-state-item site-state-posts">
+      <a href="/archives/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">日志</span>
+      </a>
+    </div>
+    <div class="site-state-item site-state-categories">
+      <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+      </a>
+    </div>
+    <div class="site-state-item site-state-tags">
+      <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+      </a>
+    </div>
+  </nav>
+</div>
+<div class="links-of-social site-overview-item animated">
+
+
+  <span class="links-of-social-item">
+    <a href="mailto:1227502607@qq.com" title="E-Mail → mailto:1227502607@qq.com" rel="noopener" class="hvr-icon-pulse" target="_blank">
+      <i class="fa fa-envelope fa-fw  hvr-icon "></i>E-Mail
+    </a>
+  </span>
+</div>
+<div class="cc-license animated" itemprop="license">
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank" title="共享知识">
+    <img src="/imgs/cc/big/by_nc_sa.svg" alt="共享知识">
+  </a>
+</div>
+      </div>
+    </div>
+   
+  </div>
+<div class="sidebar-card-widget">
+  <div class="item-headline">
+    <i class="fas fa-chart-line"></i>
+    <span>网站资讯</span>
+  </div>
+  <div class="siteinfo">
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa-solid fa-calendar-check"></i>已运行：</div>
+      <div class="item-count" id="runTimes" data-publishdate="2021-09-02T00:00:00&#43;00:00"></div>
+    </div>
+      <div class="siteinfo-item">
+        <div class="item-name">
+          <i class="fas fa fa-user"></i>总访客数：
+        </div>
+        <div class="item-count" id="busuanzi_value_site_uv"></div>
+      </div>
+      <div class="siteinfo-item">
+        <div class="item-name">
+          <i class="fas fa fa-eye"></i>页面浏览：
+        </div>
+        <div class="item-count" id="busuanzi_value_site_pv"></div>
+      </div>
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa fa-font"></i>总字数：</div>
+      <div class="item-count" id="wordsCount" data-count="84337"></div>
+    </div>
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa fa-mug-hot"></i>阅读约：</div>
+      <div class="item-count" id="readTimes" data-times="192"></div>
+    </div>
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa fa-clock-rotate-left"></i>最后更新于：</div>
+      <div class="item-count" id="last-push-date" data-lastpushdate="2022-10-19T00:00:00&#43;00:00"></div>
+    </div>
+  </div>
+</div>
+</aside>
+<div class="sidebar-dimmer"></div>
+
+    </header>
+    
+    <div class="tool-buttons" >
+  <a id="goto-comments" class="button goto-comments" href="#comments"  title="直达评论">
+    <i class="fas fa-comments"></i>
+  </a> 
+  <div id="switch-theme" class="button" title="深浅模式切换">
+    <i class="fas fa-adjust"></i>
+  </div> 
+  
+  <div class="back-to-top" role="button" title="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div> 
+</div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+    <div class="main-inner post posts-expand">
+      
+  <div class="post-block">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://github.com/yfmff/yfmff.github.io.git/post/qt/qttcp/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/sys/head.jpg">
+      <meta itemprop="name" content="孟方方">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="孟方方">
+      <meta itemprop="description" content="">
+    </span>
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="QtTcp">
+      <meta itemprop="description" content="">
+    </span>
+    <header class="post-header">
+       <h1 class="post-title" itemprop="name headline">QtTcp </h1> <div class="post-meta-container">
+  <div class="post-meta-items">
+    
+
+
+<span class="post-meta-item">
+  <span class="post-meta-item-icon">
+    <i class="far fa-calendar"></i>
+  </span>
+  <span class="post-meta-item-text">发表于：</span>
+  <time title="发表于：2022-01-05 00:00:00 &#43;0000 UTC" itemprop="dateCreated datePublished" datetime="2022-01-05 00:00:00 &#43;0000 UTC">2022-01-05</time>
+</span>
+    
+    
+<span class="post-meta-item">
+  <span class="post-meta-item-icon">
+    <i class="far fa-folder-open"></i>
+  </span>
+  <span class="post-meta-item-text">分类于：</span>
+  <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+    <a href="/categories/qt" itemprop="url" rel="index">
+      <span itemprop="name">qt</span>
+    </a>
+  </span>
+</span>
+  </div>
+  <div class="post-meta-items">
+    
+<span class="post-meta-item" title="字数">
+  <span class="post-meta-item-icon">
+    <i class="far fa-file-word"></i>
+  </span>
+  <span class="post-meta-item-text">字数：</span><span>2200</span>
+</span>
+    
+<span class="post-meta-item" title="阅读">
+  <span class="post-meta-item-icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span class="post-meta-item-text">阅读：&asymp;</span>
+  <span>5分钟</span>
+</span>
+
+    
+<span class="post-meta-item" title="浏览">
+  <span class="post-meta-item-icon">
+    <i class="far fa-eye"></i>
+  </span>
+  <span class="post-meta-item-text">
+  浏览：
+  </span>
+  <span id="busuanzi_value_page_pv" data-path="/yfmff/yfmff.github.io.git/post/qt/qttcp/"><i class="fa fa-sync fa-spin"></i></span>
+</span>
+
+  </div>
+  
+</div>
+
+    </header>
+    
+    <div class="post-body  autonumber " itemprop="articleBody">
+      
+  <p>Qt提供了两个类用于TCP通信：</p>
+<ul>
+<li><strong>QTcpServer</strong>：服务器类，用于监听客户端连接以及和客户端建立连接。</li>
+<li><strong>QTcpSocket</strong>：通信的套接字类，客户端、服务器端都需要使用。</li>
+</ul>
+<h2 id="qtcpserver">QTcpServer</h2>
+<p>常用API：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-1">1</a></span><span>QTcpServer<span style="color:#f92672">::</span>QTcpServer(QObject <span style="color:#f92672">*</span>parent <span style="color:#f92672">=</span> Q_NULLPTR);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-2">2</a></span><span><span style="color:#66d9ef">bool</span> QTcpServer<span style="color:#f92672">::</span>listen(<span style="color:#66d9ef">const</span> QHostAddress <span style="color:#f92672">&amp;</span>address <span style="color:#f92672">=</span> QHostAddress<span style="color:#f92672">::</span>Any, quint16 port <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-3">3</a></span><span><span style="color:#75715e">// 判断当前对象是否在监听, 是返回true，没有监听返回false
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-4">4</a></span><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> QTcpServer<span style="color:#f92672">::</span>isListening() <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-5">5</a></span><span><span style="color:#75715e">// 如果当前对象正在监听返回监听的服务器地址信息, 否则返回 QHostAddress::Null
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-6">6</a></span><span><span style="color:#75715e"></span>QHostAddress QTcpServer<span style="color:#f92672">::</span>serverAddress() <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-7">7</a></span><span><span style="color:#75715e">// 如果服务器正在侦听连接，则返回服务器的端口; 否则返回0
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-8">8</a></span><span><span style="color:#75715e"></span>quint16 QTcpServer<span style="color:#f92672">::</span>serverPort() <span style="color:#66d9ef">const</span>
+</span></span></code></pre></div><p>address：通过类<strong>QHostAddress</strong>可以封装IPv4、IPv6 格式的IP地址，<strong>QHostAddress::Any</strong>表示自动绑定。
+port：如果指定为 0 表示随机绑定一个可用端口。</p>
+<p>每次有新连接可用时都会发出<strong>newConnection()</strong> 信号。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-1">1</a></span><span>[signal] <span style="color:#66d9ef">void</span> QTcpServer<span style="color:#f92672">::</span>newConnection();
+</span></span></code></pre></div><p>和客户端建立连接之后,得到用于通信的<strong>QTcpSocket</strong>套接字对象，它是<strong>QTcpServer</strong>的一个子对象，当QTcpServer对象析构的时候会自动析构这个子对象，当然也可自己手动析构，建议用完之后自己手动析构这个通信的QTcpSocket 对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-1">1</a></span><span>QTcpSocket <span style="color:#f92672">*</span>QTcpServer<span style="color:#f92672">::</span>nextPendingConnection();
+</span></span></code></pre></div><h2 id="qtcpsocket">QTcpSocket</h2>
+<p>QTcpSocket 是一个套接字通信类，不管是客户端还是服务器端都需要使用，常用API如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-1">1</a></span><span>QTcpSocket<span style="color:#f92672">::</span>QTcpSocket(QObject <span style="color:#f92672">*</span>parent <span style="color:#f92672">=</span> Q_NULLPTR);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-2">2</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-3">3</a></span><span><span style="color:#75715e">// 连接服务器，需要服务器的IP和端口号
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-4">4</a></span><span><span style="color:#75715e"></span>[<span style="color:#66d9ef">virtual</span>] <span style="color:#66d9ef">void</span> QAbstractSocket<span style="color:#f92672">::</span>connectToHost(<span style="color:#66d9ef">const</span> QString <span style="color:#f92672">&amp;</span>hostName, quint16 port, OpenMode openMode <span style="color:#f92672">=</span> ReadWrite, NetworkLayerProtocol protocol <span style="color:#f92672">=</span> AnyIPProtocol);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-5">5</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-6">6</a></span><span>[<span style="color:#66d9ef">virtual</span>] <span style="color:#66d9ef">void</span> QAbstractSocket<span style="color:#f92672">::</span>connectToHost(<span style="color:#66d9ef">const</span> QHostAddress <span style="color:#f92672">&amp;</span>address, quint16 port, OpenMode openMode <span style="color:#f92672">=</span> ReadWrite);
+</span></span></code></pre></div><p>读取和发送数据：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-1"> 1</a></span><span><span style="color:#75715e">// 读取：
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-2"> 2</a></span><span><span style="color:#75715e">// 指定可接收的最大字节数 maxSize 的数据到指针 data 指向的内存中
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-3"> 3</a></span><span><span style="color:#75715e"></span>qint64 QIODevice<span style="color:#f92672">::</span>read(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>data, qint64 maxSize);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-4"> 4</a></span><span><span style="color:#75715e">// 指定可接收的最大字节数 maxSize，返回接收的字符串
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-5"> 5</a></span><span><span style="color:#75715e"></span>QByteArray QIODevice<span style="color:#f92672">::</span>read(qint64 maxSize);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-6"> 6</a></span><span><span style="color:#75715e">// 将当前可用操作数据全部读出，通过返回值返回读出的字符串
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-7"> 7</a></span><span><span style="color:#75715e"></span>QByteArray QIODevice<span style="color:#f92672">::</span>readAll();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-8"> 8</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-9"> 9</a></span><span><span style="color:#75715e">// 发送：
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-10">10</a></span><span><span style="color:#75715e">// 发送指针 data 指向的内存中的 maxSize 个字节的数据
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-11">11</a></span><span><span style="color:#75715e"></span>qint64 QIODevice<span style="color:#f92672">::</span>write(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>data, qint64 maxSize);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-12">12</a></span><span><span style="color:#75715e">// 发送指针 data 指向的内存中的数据，字符串以 \0 作为结束标记
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-13">13</a></span><span><span style="color:#75715e"></span>qint64 QIODevice<span style="color:#f92672">::</span>write(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>data);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-14">14</a></span><span><span style="color:#75715e">// 发送参数指定的字符串
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-15">15</a></span><span><span style="color:#75715e"></span>qint64 QIODevice<span style="color:#f92672">::</span>write(<span style="color:#66d9ef">const</span> QByteArray <span style="color:#f92672">&amp;</span>byteArray);
+</span></span></code></pre></div><div class="note default ">
+  在 Qt 中不管调用读操作函数接收数据，还是调用写函数发送数据，操作的对象都是本地的由 Qt 框架维护的一块内存。因此，调用了发送函数数据不一定会马上被发送到网络中，调用了接收函数也不是直接从网络中接收数据，关于底层的相关操作是不需要使用者来维护的。
+</div>
+<p>调用<strong>connectToHost()</strong> 函数并成功建立连接之后发出<strong>connected()</strong> 信号。在套接字断开连接时发出 disconnected() 信号。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-1">1</a></span><span>[signal] <span style="color:#66d9ef">void</span> QAbstractSocket<span style="color:#f92672">::</span>connected();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-2">2</a></span><span>[signal] <span style="color:#66d9ef">void</span> QAbstractSocket<span style="color:#f92672">::</span>disconnected();
+</span></span></code></pre></div><p>在使用 QTcpSocket 进行套接字通信的过程中，如果该类对象发射出<strong>readyRead()</strong> 信号，说明对端发送的数据达到了，之后就可以调用<strong>read</strong> 函数接收数据了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-1">1</a></span><span>[signal] <span style="color:#66d9ef">void</span> QIODevice<span style="color:#f92672">::</span>readyRead();
+</span></span></code></pre></div><h2 id="通信流程">通信流程</h2>
+<h3 id="服务端">服务端</h3>
+<ul>
+<li>创建套接字服务器<strong>QTcpServer</strong>对象</li>
+<li>通过<strong>QTcpServer</strong>对象设置监听，即：<strong>QTcpServer::listen()</strong></li>
+<li>基于<strong>QTcpServer::newConnection()</strong> 信号检测是否有新的客户端连接</li>
+<li>如果有新的客户端连接，调用 <strong>QTcpSocket* QTcpServer::nextPendingConnection()</strong> 得到通信的套接字对象</li>
+<li>使用通信的套接字对象<strong>QTcpSocket</strong>和客户端进行通信</li>
+</ul>
+<p>假设有个程序，界面有两个按钮，一个是用于开启服务器，一个是给客户端发送消息：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-1"> 1</a></span><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainWindow</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> QMainWindow
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-2"> 2</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-3"> 3</a></span><span>    Q_OBJECT
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-4"> 4</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-5"> 5</a></span><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-6"> 6</a></span><span>    <span style="color:#66d9ef">explicit</span> MainWindow(QWidget <span style="color:#f92672">*</span>parent <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-7"> 7</a></span><span>    <span style="color:#f92672">~</span>MainWindow();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-8"> 8</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-9"> 9</a></span><span><span style="color:#66d9ef">private</span> slots:
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-10">10</a></span><span>    <span style="color:#66d9ef">void</span> on_startServer_clicked();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-11">11</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-12">12</a></span><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">on_sendMsg_clicked</span>();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-13">13</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-14">14</a></span><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-15">15</a></span><span>    Ui<span style="color:#f92672">::</span>MainWindow <span style="color:#f92672">*</span>ui;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-16"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-16">16</a></span><span>    QTcpServer<span style="color:#f92672">*</span> m_server;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-17"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-17">17</a></span><span>    QTcpSocket<span style="color:#f92672">*</span> m_tcp;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-18"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-18">18</a></span><span>};
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-19"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-19">19</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-20"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-20">20</a></span><span>MainWindow<span style="color:#f92672">::</span>MainWindow(QWidget <span style="color:#f92672">*</span>parent) <span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-21"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-21">21</a></span><span>    QMainWindow(parent),
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-22"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-22">22</a></span><span>    ui(<span style="color:#66d9ef">new</span> Ui<span style="color:#f92672">::</span>MainWindow)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-23"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-23">23</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-24"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-24">24</a></span><span>    ui<span style="color:#f92672">-&gt;</span>setupUi(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-25"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-25">25</a></span><span>    setWindowTitle(<span style="color:#e6db74">&#34;TCP - 服务器&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-26"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-26">26</a></span><span>    <span style="color:#75715e">// 创建 QTcpServer 对象
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-27"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-27">27</a></span><span><span style="color:#75715e"></span>    m_server <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QTcpServer(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-28"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-28">28</a></span><span>    <span style="color:#75715e">// 检测是否有新的客户端连接
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-29"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-29">29</a></span><span><span style="color:#75715e"></span>    connect(m_server, <span style="color:#f92672">&amp;</span>QTcpServer<span style="color:#f92672">::</span>newConnection, <span style="color:#66d9ef">this</span>, [<span style="color:#f92672">=</span>]()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-30"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-30">30</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-31"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-31">31</a></span><span>        m_tcp <span style="color:#f92672">=</span> m_server<span style="color:#f92672">-&gt;</span>nextPendingConnection();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-32"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-32">32</a></span><span>        ui<span style="color:#f92672">-&gt;</span>record<span style="color:#f92672">-&gt;</span>append(<span style="color:#e6db74">&#34;成功和客户端建立了新的连接...&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-33"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-33">33</a></span><span>        m_status<span style="color:#f92672">-&gt;</span>setPixmap(QPixmap(<span style="color:#e6db74">&#34;:/connect.png&#34;</span>).scaled(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>));
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-34"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-34">34</a></span><span>        <span style="color:#75715e">// 检测是否有客户端数据
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-35"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-35">35</a></span><span><span style="color:#75715e"></span>        connect(m_tcp, <span style="color:#f92672">&amp;</span>QTcpSocket<span style="color:#f92672">::</span>readyRead, <span style="color:#66d9ef">this</span>, [<span style="color:#f92672">=</span>]()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-36"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-36">36</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-37"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-37">37</a></span><span>            <span style="color:#75715e">// 接收数据
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-38"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-38">38</a></span><span><span style="color:#75715e"></span>            QString recvMsg <span style="color:#f92672">=</span> m_tcp<span style="color:#f92672">-&gt;</span>readAll();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-39"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-39">39</a></span><span>            ui<span style="color:#f92672">-&gt;</span>record<span style="color:#f92672">-&gt;</span>append(<span style="color:#e6db74">&#34;客户端Say: &#34;</span> <span style="color:#f92672">+</span> recvMsg);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-40"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-40">40</a></span><span>        });
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-41"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-41">41</a></span><span>        <span style="color:#75715e">// 客户端断开了连接
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-42"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-42">42</a></span><span><span style="color:#75715e"></span>        connect(m_tcp, <span style="color:#f92672">&amp;</span>QTcpSocket<span style="color:#f92672">::</span>disconnected, <span style="color:#66d9ef">this</span>, [<span style="color:#f92672">=</span>]()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-43"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-43">43</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-44"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-44">44</a></span><span>            ui<span style="color:#f92672">-&gt;</span>record<span style="color:#f92672">-&gt;</span>append(<span style="color:#e6db74">&#34;客户端已经断开了连接...&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-45"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-45">45</a></span><span>            m_tcp<span style="color:#f92672">-&gt;</span>deleteLater();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-46"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-46">46</a></span><span>            m_status<span style="color:#f92672">-&gt;</span>setPixmap(QPixmap(<span style="color:#e6db74">&#34;:/disconnect.png&#34;</span>).scaled(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>));
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-47"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-47">47</a></span><span>        });
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-48"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-48">48</a></span><span>    });
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-49"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-49">49</a></span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-50"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-50">50</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-51"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-51">51</a></span><span>MainWindow<span style="color:#f92672">::~</span>MainWindow()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-52"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-52">52</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-53"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-53">53</a></span><span>    <span style="color:#66d9ef">delete</span> ui;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-54"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-54">54</a></span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-55"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-55">55</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-56"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-56">56</a></span><span><span style="color:#75715e">// 启动服务器端的服务按钮
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-57"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-57">57</a></span><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> MainWindow<span style="color:#f92672">::</span>on_startServer_clicked()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-58"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-58">58</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-59"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-59">59</a></span><span>    <span style="color:#75715e">// 设置服务器监听8888端口
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-60"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-60">60</a></span><span><span style="color:#75715e"></span>    m_server<span style="color:#f92672">-&gt;</span>listen(QHostAddress<span style="color:#f92672">::</span>Any, <span style="color:#ae81ff">8888</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-61"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-61">61</a></span><span>    ui<span style="color:#f92672">-&gt;</span>startServer<span style="color:#f92672">-&gt;</span>setEnabled(false);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-62"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-62">62</a></span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-63"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-63">63</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-64"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-64">64</a></span><span><span style="color:#75715e">// 点击发送数据按钮
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-65"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-65">65</a></span><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> MainWindow<span style="color:#f92672">::</span>on_sendMsg_clicked()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-66"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-66">66</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-67"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-67">67</a></span><span>    QString sendMsg <span style="color:#f92672">=</span> ui<span style="color:#f92672">-&gt;</span>msg<span style="color:#f92672">-&gt;</span>toPlainText();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-68"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-68">68</a></span><span>    m_tcp<span style="color:#f92672">-&gt;</span>write(sendMsg.toUtf8());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-69"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-69">69</a></span><span>    ui<span style="color:#f92672">-&gt;</span>record<span style="color:#f92672">-&gt;</span>append(<span style="color:#e6db74">&#34;服务器Say: &#34;</span> <span style="color:#f92672">+</span> sendMsg);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-70"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-70">70</a></span><span>    ui<span style="color:#f92672">-&gt;</span>msg<span style="color:#f92672">-&gt;</span>clear();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-71"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-71">71</a></span><span>}
+</span></span></code></pre></div><h3 id="客户端">客户端</h3>
+<ul>
+<li>创建通信的套接字类<strong>QTcpSocket</strong>对象</li>
+<li>使用服务器端绑定的IP和端口连接服务器<strong>QAbstractSocket::connectToHost()</strong></li>
+<li>使用<strong>QTcpSocket</strong>对象和服务器进行通信</li>
+</ul>
+<p>客户端上有三个按钮，连接服务器，断开连接和发送消息。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-1"> 1</a></span><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainWindow</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> QMainWindow
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-2"> 2</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-3"> 3</a></span><span>    Q_OBJECT
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-4"> 4</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-5"> 5</a></span><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-6"> 6</a></span><span>    <span style="color:#66d9ef">explicit</span> MainWindow(QWidget <span style="color:#f92672">*</span>parent <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-7"> 7</a></span><span>    <span style="color:#f92672">~</span>MainWindow();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-8"> 8</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-9"> 9</a></span><span><span style="color:#66d9ef">private</span> slots:
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-10">10</a></span><span>    <span style="color:#66d9ef">void</span> on_connectServer_clicked();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-11">11</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-12">12</a></span><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">on_sendMsg_clicked</span>();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-13">13</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-14">14</a></span><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">on_disconnect_clicked</span>();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-15">15</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-16"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-16">16</a></span><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-17"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-17">17</a></span><span>    Ui<span style="color:#f92672">::</span>MainWindow <span style="color:#f92672">*</span>ui;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-18"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-18">18</a></span><span>    QTcpSocket<span style="color:#f92672">*</span> m_tcp;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-19"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-19">19</a></span><span>};
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-20"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-20">20</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-21"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-21">21</a></span><span>MainWindow<span style="color:#f92672">::</span>MainWindow(QWidget <span style="color:#f92672">*</span>parent) <span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-22"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-22">22</a></span><span>    QMainWindow(parent),
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-23"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-23">23</a></span><span>    ui(<span style="color:#66d9ef">new</span> Ui<span style="color:#f92672">::</span>MainWindow)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-24"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-24">24</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-25"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-25">25</a></span><span>    ui<span style="color:#f92672">-&gt;</span>setupUi(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-26"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-26">26</a></span><span>    setWindowTitle(<span style="color:#e6db74">&#34;TCP - 客户端&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-27"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-27">27</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-28"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-28">28</a></span><span>    <span style="color:#75715e">// 创建通信的套接字对象
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-29"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-29">29</a></span><span><span style="color:#75715e"></span>    m_tcp <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QTcpSocket(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-30"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-30">30</a></span><span>    <span style="color:#75715e">// 检测服务器是否回复了数据
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-31"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-31">31</a></span><span><span style="color:#75715e"></span>    connect(m_tcp, <span style="color:#f92672">&amp;</span>QTcpSocket<span style="color:#f92672">::</span>readyRead, [<span style="color:#f92672">=</span>]()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-32"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-32">32</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-33"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-33">33</a></span><span>        <span style="color:#75715e">// 接收服务器发送的数据
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-34"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-34">34</a></span><span><span style="color:#75715e"></span>        QByteArray recvMsg <span style="color:#f92672">=</span> m_tcp<span style="color:#f92672">-&gt;</span>readAll();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-35"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-35">35</a></span><span>        ui<span style="color:#f92672">-&gt;</span>record<span style="color:#f92672">-&gt;</span>append(<span style="color:#e6db74">&#34;服务器Say: &#34;</span> <span style="color:#f92672">+</span> recvMsg);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-36"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-36">36</a></span><span>    });
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-37"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-37">37</a></span><span>        
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-38"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-38">38</a></span><span>    <span style="color:#75715e">// 检测是否和服务器是否连接成功了
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-39"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-39">39</a></span><span><span style="color:#75715e"></span>    connect(m_tcp, <span style="color:#f92672">&amp;</span>QTcpSocket<span style="color:#f92672">::</span>connected, <span style="color:#66d9ef">this</span>, [<span style="color:#f92672">=</span>]()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-40"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-40">40</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-41"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-41">41</a></span><span>        ui<span style="color:#f92672">-&gt;</span>record<span style="color:#f92672">-&gt;</span>append(<span style="color:#e6db74">&#34;恭喜, 连接服务器成功!!!&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-42"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-42">42</a></span><span>        m_status<span style="color:#f92672">-&gt;</span>setPixmap(QPixmap(<span style="color:#e6db74">&#34;:/connect.png&#34;</span>).scaled(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>));
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-43"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-43">43</a></span><span>    });
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-44"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-44">44</a></span><span>        
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-45"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-45">45</a></span><span>    <span style="color:#75715e">// 检测服务器是否和客户端断开了连接
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-46"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-46">46</a></span><span><span style="color:#75715e"></span>    connect(m_tcp, <span style="color:#f92672">&amp;</span>QTcpSocket<span style="color:#f92672">::</span>disconnected, <span style="color:#66d9ef">this</span>, [<span style="color:#f92672">=</span>]()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-47"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-47">47</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-48"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-48">48</a></span><span>        ui<span style="color:#f92672">-&gt;</span>record<span style="color:#f92672">-&gt;</span>append(<span style="color:#e6db74">&#34;服务器已经断开了连接, ...&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-49"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-49">49</a></span><span>        ui<span style="color:#f92672">-&gt;</span>connectServer<span style="color:#f92672">-&gt;</span>setEnabled(true);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-50"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-50">50</a></span><span>        ui<span style="color:#f92672">-&gt;</span>disconnect<span style="color:#f92672">-&gt;</span>setEnabled(false);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-51"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-51">51</a></span><span>    });
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-52"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-52">52</a></span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-53"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-53">53</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-54"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-54">54</a></span><span>MainWindow<span style="color:#f92672">::~</span>MainWindow()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-55"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-55">55</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-56"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-56">56</a></span><span>    <span style="color:#66d9ef">delete</span> ui;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-57"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-57">57</a></span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-58"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-58">58</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-59"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-59">59</a></span><span><span style="color:#75715e">// 连接服务器按钮按下之后的处理动作
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-60"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-60">60</a></span><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> MainWindow<span style="color:#f92672">::</span>on_connectServer_clicked()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-61"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-61">61</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-62"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-62">62</a></span><span>    QString ip <span style="color:#f92672">=</span> ui<span style="color:#f92672">-&gt;</span>ip<span style="color:#f92672">-&gt;</span>text();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-63"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-63">63</a></span><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">short</span> port <span style="color:#f92672">=</span> ui<span style="color:#f92672">-&gt;</span>port<span style="color:#f92672">-&gt;</span>text().toInt();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-64"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-64">64</a></span><span>    <span style="color:#75715e">// 连接服务器
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-65"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-65">65</a></span><span><span style="color:#75715e"></span>    m_tcp<span style="color:#f92672">-&gt;</span>connectToHost(QHostAddress(ip), port);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-66"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-66">66</a></span><span>    ui<span style="color:#f92672">-&gt;</span>connectServer<span style="color:#f92672">-&gt;</span>setEnabled(false);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-67"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-67">67</a></span><span>    ui<span style="color:#f92672">-&gt;</span>disconnect<span style="color:#f92672">-&gt;</span>setEnabled(true);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-68"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-68">68</a></span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-69"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-69">69</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-70"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-70">70</a></span><span><span style="color:#75715e">// 发送数据按钮按下之后的处理动作
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-71"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-71">71</a></span><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> MainWindow<span style="color:#f92672">::</span>on_sendMsg_clicked()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-72"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-72">72</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-73"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-73">73</a></span><span>    QString sendMsg <span style="color:#f92672">=</span> ui<span style="color:#f92672">-&gt;</span>msg<span style="color:#f92672">-&gt;</span>toPlainText();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-74"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-74">74</a></span><span>    m_tcp<span style="color:#f92672">-&gt;</span>write(sendMsg.toUtf8());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-75"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-75">75</a></span><span>    ui<span style="color:#f92672">-&gt;</span>record<span style="color:#f92672">-&gt;</span>append(<span style="color:#e6db74">&#34;客户端Say: &#34;</span> <span style="color:#f92672">+</span> sendMsg);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-76"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-76">76</a></span><span>    ui<span style="color:#f92672">-&gt;</span>msg<span style="color:#f92672">-&gt;</span>clear();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-77"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-77">77</a></span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-78"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-78">78</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-79"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-79">79</a></span><span><span style="color:#75715e">// 断开连接按钮被按下之后的处理动作
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-80"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-80">80</a></span><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> MainWindow<span style="color:#f92672">::</span>on_disconnect_clicked()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-81"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-81">81</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-82"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-82">82</a></span><span>    m_tcp<span style="color:#f92672">-&gt;</span>close();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-83"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-83">83</a></span><span>    ui<span style="color:#f92672">-&gt;</span>connectServer<span style="color:#f92672">-&gt;</span>setEnabled(true);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-84"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-84">84</a></span><span>    ui<span style="color:#f92672">-&gt;</span>disconnect<span style="color:#f92672">-&gt;</span>setEnabled(false);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-85"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-85">85</a></span><span>}
+</span></span></code></pre></div>
+
+    </div>
+    <footer class="post-footer">
+      
+
+
+<div class="addthis_inline_share_toolbox" style="text-align: center;"></div>
+<hr/>
+
+
+
+<div class="post-copyright">
+  <img src="/imgs/cc/cc.svg" width="75" height="75" align="right" />
+  <ul>
+    <li class="post-copyright-title">
+      <strong>文章标题：</strong>
+      QtTcp
+    </li>
+    <li class="post-copyright-author">
+      <strong>本文作者： </strong>
+      孟方方
+    </li>
+    <li class="post-copyright-link"> 
+      <strong>本文链接：</strong>
+       <a id="post-cr-link" href="https://github.com/yfmff/yfmff.github.io.git/post/qt/qttcp/" title="QtTcp">https://github.com/yfmff/yfmff.github.io.git/post/qt/qttcp/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <i class="fab fa-fw fa-creative-commons"></i><a target='_blank' href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh'>BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</div>
+
+<div class="post-nav">
+  <div class="post-nav-next post-nav-item">
+    <a href="/yfmff/yfmff.github.io.git/post/cpp/construct/" rel="next" title="委托构造与继承构造">
+      <i class="fa fa-chevron-left"></i> 委托构造与继承构造
+    </a>
+  </div>
+  <div class="post-nav-prev post-nav-item">
+    <a href="/yfmff/yfmff.github.io.git/post/qt/qtthreadsyn/" rel="prev" title="Qt线程同步与异步（并发）">
+      Qt线程同步与异步（并发）
+      <i class="fa fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+    </footer>
+  </article>
+</div>
+<div id="comments" class="post-comments">
+  <div class="comment-head">
+    <div class="comment-headline">
+      <i class="fas fa-comments fa-fw"></i>
+      <span>评论交流</span>
+    </div>
+    <div class="comment-switch">
+      <span class="first-comment">Giscus</span>
+      <span class="switch-btn "></span>
+      <span class="second-comment">Waline</span>
+    </div>
+  </div>
+  <div class="comment-wrap">
+  
+    <div><div class="comment-loading">
+  <i class="fa fa-sync fa-spin"></i>
+</div><div class="giscus-container"></div>
+    </div>
+    <div><div class="comment-loading">
+  <i class="fa fa-sync fa-spin"></i>
+</div><div class="waline-container"></div>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-inner">
+
+<div class="copyright">
+  &copy;
+  <span itemprop="copyrightYear">
+    2020 - 2022
+  </span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟方方</span>
+</div>
+
+
+    </div>
+  </footer> 
+  
+  <script type="text/javascript" src="https://unpkg.com/animejs@3.2.1/lib/anime.min.js" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"bookmark":{"color":"#222","enable":true,"save":"manual"},"copybtn":true,"darkmode":true,"giscus":{"cfg":{"category":"Comments","categoryid":null,"emit":false,"inputposition":"top","mapping":"title","reactions":false,"repo":"username/repo-name","repoid":null,"theme":"preferred_color_scheme"},"js":"https://giscus.app/client.js"},"hostname":"https://github.com/yfmff/yfmff.github.io.git","i18n":{"ds_day":" 天前","ds_days":" 天 ","ds_hour":" 小时前","ds_hours":" 小时 ","ds_just":"刚刚","ds_min":" 分钟前","ds_mins":" 分钟","ds_month":" 个月前","ds_years":" 年 ","empty":"没有找到任何搜索结果：${query}","hits":"","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","placeholder":"搜索..."},"lang":"zh-CN","lazyload":false,"localSearch":{"enable":true,"path":"/searchindexes.xml","preload":false,"topnperarticle":-1,"trigger":"auto","unescape":false},"motion":{"async":true,"enable":true,"transition":{"collheader":"fadeInLeft","postblock":"fadeIn","postbody":"fadeInDown","postheader":"fadeInDown","sidebar":"fadeInUp"}},"root":"/","scheme":"Gemini","sidebar":{"display":"post","offset":12,"padding":18,"position":"left","width":256},"vendor":{"plugins":"unpkg","router":"https://unpkg.com"},"version":"4.3.1","waline":{"cfg":{"emoji":false,"imguploader":false,"pageview":"#waline-pageview-count","placeholder":"请文明发言哟 ヾ(≧▽≦*)o","reaction":true,"reactiontext":["点赞","踩一下","得意","不屑","尴尬","睡觉"],"reactiontitle":"你认为这篇文章怎么样？","requiredmeta":["nick","mail"],"serverurl":null,"sofa":"快来发表你的意见吧 (≧∀≦)ゞ","wordlimit":200},"css":{"alias":"waline","file":"dist/waline.css","name":"@waline/client","version":"2.11.3"},"js":{"alias":"waline","file":"dist/waline.js","name":"@waline/client","version":"2.11.3"}}}</script>
+
+
+
+
+
+
+
+<script type="text/javascript" src="/yfmff/yfmff.github.io.git/js/main.min.a4d8b33d4c8124fe3decce5ba14a2fb8a224b7b21d44ff1628572420961912bf.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

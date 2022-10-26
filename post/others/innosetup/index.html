@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)" />
+<meta name="generator" content="Hugo 0.104.3" />
+<link rel="shortcut icon" type="image/x-icon" href="/sys/favor.jpg">
+<link rel="icon" type="image/x-icon" href="/sys/favor.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="/sys/favor.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="/sys/favor.jpg">
+<link rel="apple-touch-icon" sizes="180x180" href="/sys/favor.jpg">
+<meta itemprop="name" content="innosetup笔记" />
+<meta itemprop="description" content="inno setup使用总结" />
+<meta itemprop="datePublished" ZgotmplZ />
+<meta itemprop="dateModified" ZgotmplZ />
+<meta itemprop="image" content="https://github.com/sys/head.jpg" />
+<meta itemprop="keywords" content="inno-setup" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="innosetup笔记" />
+<meta property="og:description" content="inno setup使用总结" />
+<meta property="og:image" content="/sys/head.jpg" />
+<meta property="og:image:width" content="312" />
+<meta property="og:image:height" content="312" />
+<meta property="og:image:type" content="image/jpeg/png/svg/jpg" />
+<meta property="og:url" content="https://github.com/yfmff/yfmff.github.io.git/post/others/innosetup/"/>
+<meta property="og:site_name" content="孟方方的博客" />
+<meta property="og:locale" content="zh-CN"/>
+<meta property="article:author" content="孟方方" />
+<meta property="article:published_time" content="2022-09-23 00:00:00 &#43;0000 UTC" />
+<meta property="article:modified_time" content="2022-09-23 00:00:00 &#43;0000 UTC" />
+
+
+  
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.1.2/css/all.min.css" />
+  
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" />
+
+
+<link rel="stylesheet" href="/yfmff/yfmff.github.io.git/css/main.min.c443fa3d6006bbe686c787cccb9273c628499f2cc10d7ab4712962d7eedb3f58.css">
+  <style type="text/css">
+    .post-footer, .flinks-list-footer hr:after {
+      content: "~ 我可是有底线的哟 ~";
+    }
+  </style>
+  <script class="next-config" data-name="page" type="application/json">{"comments":false,"isHome":false,"isPage":true,"path":"innosetup","permalink":"https://github.com/yfmff/yfmff.github.io.git/post/others/innosetup/","title":"innosetup笔记"}</script>
+  <script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', () => {
+    var script = document.createElement('script');
+      
+    script.charset = "UTF-8";
+    script.src     = "https:\/\/busuanzi.ibruce.info\/busuanzi\/2.3\/busuanzi.pure.mini.js";
+    script.async   = "true"
+
+    document.head.appendChild(script);
+  });
+</script>
+
+
+
+
+  <title>innosetup笔记 - 孟方方的博客</title>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage"  class="use-motion" >
+  <div class="headband"></div>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">孟方方的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+    
+      <p class="site-subtitle" itemprop="description">新的一天，开始了</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+      
+      <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+    <li class="menu-item menu-item-home">
+      <a href="/yfmff/yfmff.github.io.git/" class="hvr-icon-pulse " rel="section"><i class="fa fa-home hvr-icon"></i>首页
+      </a>
+    </li>
+    <li class="menu-item menu-item-about">
+      <a href="/yfmff/yfmff.github.io.git/about.html" class="hvr-icon-pulse " rel="section"><i class="fa fa-user hvr-icon"></i>关于
+      </a>
+    </li>
+    <li class="menu-item menu-item-archives">
+      <a href="/yfmff/yfmff.github.io.git/archives/" class="hvr-icon-pulse " rel="section"><i class="fa fa-archive hvr-icon"></i>归档
+        <span class="badge">42</span>
+      </a>
+    </li>
+    <li class="menu-item menu-item-search">
+      <a role="button" class="popup-trigger hvr-icon-pulse"><i class="fa fa-search fa-fw hvr-icon"></i>搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+    </div>
+  </div>
+      </div>
+      <div class="toggle sidebar-toggle" role="button">
+  <span class="toggle-line"></span>
+  <span class="toggle-line"></span>
+  <span class="toggle-line"></span>
+</div>
+<aside class="sidebar">
+  
+  <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-toc">
+        文章目录
+      </li>
+      <li class="sidebar-nav-overview">
+        站点概览
+      </li>
+    </ul>
+    <div class="sidebar-panel-container">
+      
+      <div class="post-toc-wrap sidebar-panel">
+        <div class="post-toc animated"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本概念">基本概念</a></li>
+    <li><a href="#脚本格式">脚本格式</a></li>
+    <li><a href="#常用常量">常用常量</a></li>
+    <li><a href="#pascal脚本">Pascal脚本</a></li>
+    <li><a href="#常见需求">常见需求</a>
+      <ul>
+        <li><a href="#启用日志">启用日志</a></li>
+        <li><a href="#判断程序有没有在运行">判断程序有没有在运行</a></li>
+        <li><a href="#终结进程">终结进程</a></li>
+        <li><a href="#环境变量的添加和删除">环境变量的添加和删除</a></li>
+        <li><a href="#环境变量中是否包含指定路径">环境变量中是否包含指定路径</a></li>
+        <li><a href="#覆盖安装">覆盖安装</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div>
+      
+      <div class="site-overview-wrap sidebar-panel">
+<div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="孟方方"
+      src="/sys/head.jpg">
+  <p class="site-author-name" itemprop="name">孟方方</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+    <div class="site-state-item site-state-posts">
+      <a href="/archives/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">日志</span>
+      </a>
+    </div>
+    <div class="site-state-item site-state-categories">
+      <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+      </a>
+    </div>
+    <div class="site-state-item site-state-tags">
+      <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+      </a>
+    </div>
+  </nav>
+</div>
+<div class="links-of-social site-overview-item animated">
+
+
+  <span class="links-of-social-item">
+    <a href="mailto:1227502607@qq.com" title="E-Mail → mailto:1227502607@qq.com" rel="noopener" class="hvr-icon-pulse" target="_blank">
+      <i class="fa fa-envelope fa-fw  hvr-icon "></i>E-Mail
+    </a>
+  </span>
+</div>
+<div class="cc-license animated" itemprop="license">
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank" title="共享知识">
+    <img src="/imgs/cc/big/by_nc_sa.svg" alt="共享知识">
+  </a>
+</div>
+      </div>
+    </div>
+   
+  </div>
+<div class="sidebar-card-widget">
+  <div class="item-headline">
+    <i class="fas fa-chart-line"></i>
+    <span>网站资讯</span>
+  </div>
+  <div class="siteinfo">
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa-solid fa-calendar-check"></i>已运行：</div>
+      <div class="item-count" id="runTimes" data-publishdate="2021-09-02T00:00:00&#43;00:00"></div>
+    </div>
+      <div class="siteinfo-item">
+        <div class="item-name">
+          <i class="fas fa fa-user"></i>总访客数：
+        </div>
+        <div class="item-count" id="busuanzi_value_site_uv"></div>
+      </div>
+      <div class="siteinfo-item">
+        <div class="item-name">
+          <i class="fas fa fa-eye"></i>页面浏览：
+        </div>
+        <div class="item-count" id="busuanzi_value_site_pv"></div>
+      </div>
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa fa-font"></i>总字数：</div>
+      <div class="item-count" id="wordsCount" data-count="84337"></div>
+    </div>
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa fa-mug-hot"></i>阅读约：</div>
+      <div class="item-count" id="readTimes" data-times="192"></div>
+    </div>
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa fa-clock-rotate-left"></i>最后更新于：</div>
+      <div class="item-count" id="last-push-date" data-lastpushdate="2022-10-19T00:00:00&#43;00:00"></div>
+    </div>
+  </div>
+</div>
+</aside>
+<div class="sidebar-dimmer"></div>
+
+    </header>
+    
+    <div class="tool-buttons" >
+  <a id="goto-comments" class="button goto-comments" href="#comments"  title="直达评论">
+    <i class="fas fa-comments"></i>
+  </a> 
+  <div id="switch-theme" class="button" title="深浅模式切换">
+    <i class="fas fa-adjust"></i>
+  </div> 
+  
+  <div class="back-to-top" role="button" title="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div> 
+</div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+    <div class="main-inner post posts-expand">
+      
+  <div class="post-block">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://github.com/yfmff/yfmff.github.io.git/post/others/innosetup/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/sys/head.jpg">
+      <meta itemprop="name" content="孟方方">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="孟方方">
+      <meta itemprop="description" content="">
+    </span>
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="innosetup笔记">
+      <meta itemprop="description" content="inno setup使用总结">
+    </span>
+    <header class="post-header">
+       <h1 class="post-title" itemprop="name headline">innosetup笔记 </h1> <div class="post-meta-container">
+  <div class="post-meta-items">
+    
+
+
+<span class="post-meta-item">
+  <span class="post-meta-item-icon">
+    <i class="far fa-calendar"></i>
+  </span>
+  <span class="post-meta-item-text">发表于：</span>
+  <time title="发表于：2022-09-23 00:00:00 &#43;0000 UTC" itemprop="dateCreated datePublished" datetime="2022-09-23 00:00:00 &#43;0000 UTC">2022-09-23</time>
+</span>
+    
+    
+  </div>
+  <div class="post-meta-items">
+    
+<span class="post-meta-item" title="字数">
+  <span class="post-meta-item-icon">
+    <i class="far fa-file-word"></i>
+  </span>
+  <span class="post-meta-item-text">字数：</span><span>3920</span>
+</span>
+    
+<span class="post-meta-item" title="阅读">
+  <span class="post-meta-item-icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span class="post-meta-item-text">阅读：&asymp;</span>
+  <span>8分钟</span>
+</span>
+
+    
+<span class="post-meta-item" title="浏览">
+  <span class="post-meta-item-icon">
+    <i class="far fa-eye"></i>
+  </span>
+  <span class="post-meta-item-text">
+  浏览：
+  </span>
+  <span id="busuanzi_value_page_pv" data-path="/yfmff/yfmff.github.io.git/post/others/innosetup/"><i class="fa fa-sync fa-spin"></i></span>
+</span>
+
+  </div>
+  
+</div>
+
+    </header>
+    
+    <div class="post-body  autonumber " itemprop="articleBody">
+      
+  <p><img src="http://p9.qhimg.com/bdr/__85/t01731dfaad9753242d.jpg" alt=""></p>
+<p>很惭愧，做了两年开发了，结果还没学过怎么打包软件。今天就<strong>inno setup</strong>常用的操作进行总结，以备不时之需。</p>
+<h2 id="基本概念">基本概念</h2>
+<p>inno setup是一款开源的、免费的、安装包制作软件，其是用Delphi写成，支持pascal脚本，分为Ansi和Unicode版本。通过编写后缀是 <strong>.iss</strong>的脚本文件，便可编译出可执行的安装包。
+<a href="https://jrsoftware.org/isinfo.php" title="点击访问inno setup官网" rel="noopener external nofollow noreferrer" target="_blank" class=" exturl">
+    点击访问inno setup官网
+    <i class="fa fa-external-link-alt"></i>
+</a>。下图展示了一个示例脚本部分截图。
+<img src="/articleImgs/inno/inno-example.png" alt="一个示例脚本"></p>
+<h2 id="脚本格式">脚本格式</h2>
+<p>Inno Setup脚本含有很多<strong>区段</strong>（上图中 [Setup]就是一个字段），每个字段控制了安装过程中一些功能。各个段中都有一些相关的 <strong>条目</strong>，比如 [Setup]字段中就含有类似<strong>AppId</strong>、<strong>AppName</strong> 类似的条目，控制了软件的 <strong>id</strong>、<strong>软件名</strong> 等属性。在相关<strong>条目</strong> 前面添加 <strong>;</strong> 可以注释此字段，使得该字段在打包时使用默认值。Inno Setup支持 <strong>#include</strong> 指令，比如当你的脚本里函数太多，文件太长时，可以将部分函数提出来做成单独的 <strong>myfunc.iss</strong> 文件，然后在主文件中 <strong>#include myfunc.iss</strong> 便可随意使用myfunc.iss中的函数。如果想在 <strong>[code]</strong> 段使用这些常量，比如想用 <strong>userdesktop</strong>，可这样写：<strong>{userdesktop}</strong>。可在文件头定义自己的常量： <strong>#define MYVAL 10</strong>，用时可在 <strong>{#MYVAL}</strong> 来取出数据。</p>
+<h2 id="常用常量">常用常量</h2>
+<p>Inno Setup中提供了一些常用常量，而脚本中的条目大部分都可以嵌入常量。这些预定义的字符被包围在 <strong>{}</strong> 中。安装程序执行时会对这些常量进行翻译。
+字符 <strong>{</strong> 视作为常量开始。如果你想将它作为实际字符使用，你必须使用两个连续的 <strong>{</strong> 字符。(对于 <strong>}</strong> 则不需要两个。)</p>
+<table>
+<thead>
+<tr>
+<th>常量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>app</strong></td>
+<td>用户在安装向导中的选择目标位置页面中选定的应用程序目录。</td>
+</tr>
+<tr>
+<td><strong>sys</strong></td>
+<td>系统的<strong>System32</strong>目录。</td>
+</tr>
+<tr>
+<td><strong>syswow64</strong></td>
+<td>在64-位Windows中，系统的<strong>SysWOW64</strong>目录，通常为 <strong>&ldquo;C:\WINDOWS\SysWOW64&rdquo;</strong>。这是32-位系统文件所在的实际目录。32-位系统文件不驻留在单独的 SysWOW64 目录中，因此如果在此处使用，此常量将解析为与 <strong>{sys}</strong> 相同的目录。除非特别需要获取 32-位系统文件所在实际目录的名称，否则不要使用此常量。在某些 {sys} 的地方随意使用 {syswow64} 可能会导致问题。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>src</strong></td>
+<td>安装程序文件所在目录。</td>
+</tr>
+<tr>
+<td><strong>sd</strong></td>
+<td>系统驱动器。Windows系统被安装的驱动器。一般来说是 <strong>C:</strong>。该目录常量等同于<strong>SystemDrive</strong>环境变量。</td>
+</tr>
+<tr>
+<td><strong>commonpf</strong></td>
+<td>系统的<strong>Program Files</strong>目录的路径。<strong>{pf}<strong>等于 <strong>{pf32}</strong>，除非安装程序运行于</strong>64-位安装模式</strong>，在这种情况下它等于 <strong>{pf64}</strong></td>
+</tr>
+<tr>
+<td><strong>commonpf32/64</strong></td>
+<td>32-位程序文件。系统的32-位<strong>Program Files</strong>目录路径。一般来说它在32-位Windows是<strong>C:\Program Files</strong>，在64-位Windows中是 <strong>C:\Program Files(x86)</strong>。</td>
+</tr>
+<tr>
+<td><strong>commoncf/32</strong></td>
+<td>32-位Windows是 <strong>C:\Program Files\Common Files</strong>，在 64-位Windows中是 <strong>C:\Program Files(x86)\Common Files</strong>。</td>
+</tr>
+<tr>
+<td><strong>tmp</strong></td>
+<td>用于安装程序或卸载程序的临时目录。这不是用户的TEMP环境变量值。它是在安装程序启动后在用户临时目录中创建的子目录(如名为<strong>C:\WINDOWS\TEMP\IS-xxxxx.tmp</strong>)。目录中的所有文件和子目录在安装程序或卸载程序退出时删除。在安装时，这主要用于提取在 <strong>[Run]</strong> 区段运行、但安装后不再需要的文件</td>
+</tr>
+<tr>
+<td><strong>group</strong></td>
+<td>开始菜单文件夹路径</td>
+</tr>
+<tr>
+<td><strong>localappdata</strong></td>
+<td>当前用户的本地(非Roaming)应用程序数据文件夹的路径。</td>
+</tr>
+<tr>
+<td><strong>userappdata</strong>和<strong>commonappdata</strong></td>
+<td>AppData文件夹路径。</td>
+</tr>
+<tr>
+<td><strong>usercf</strong></td>
+<td>当前用户的路径是Common Files目录。</td>
+</tr>
+<tr>
+<td><strong>userdesktop</strong>和<strong>commondesktop</strong></td>
+<td>桌面文件夹的路径。</td>
+</tr>
+<tr>
+<td><strong>userdocs</strong>和<strong>commondocs</strong></td>
+<td>我的文档(My Documents)文件夹路径。</td>
+</tr>
+<tr>
+<td><strong>userpf</strong></td>
+<td>当前用户的路径是<strong>Program Files</strong>目录。</td>
+</tr>
+<tr>
+<td><strong>userprograms</strong>和<strong>commonprograms</strong></td>
+<td>开始菜单上程序文件夹的路径。</td>
+</tr>
+<tr>
+<td><strong>log</strong></td>
+<td>日志文件名称，如果logging未启用则返回一个空字串。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pascal脚本">Pascal脚本</h2>
+<p>我们的很多自定义功能几乎都是在[code]段实现的。Inno setup常用事件函数如下：</p>
+<pre tabindex="0"><code class="language-PASCAL" data-lang="PASCAL">// 安装事件函数
+function InitializeSetup(): Boolean;
+在安装程序初始化期间调用。返回 False 以中止 Setup，否则返回 True。
+
+procedure InitializeWizard();
+在启动时使用该事件函数来改变向导或向导页面。你不能在它被触发时使用 InitializeSetup 事件函数，因为向导窗体尚不存在。
+
+procedure DeinitializeSetup();
+仅在安装程序终止前调用。注意这个函数在即使用户在任何内容安装之前退出安装程序时也会调用。
+
+procedure CurStepChanged(CurStep: TSetupStep);
+你可以用这个事件函数执行你自己的预安装和安装后任务。
+TSetupStep 值：ssInstall, ssPostInstall, ssDone
+
+在实际安装开始之前用 CurStep=ssInstall 调用，或在实际安装完成之后用 CurStep=ssPostInstall 调用，或在安装程序终止之前和安装完成之后用 CurStep=ssDone 调用。
+
+procedure CurInstallProgressChanged(CurProgress, MaxProgress: Integer);
+在安装程序提取文件、创建快捷方式、创建 INI 条目和创建注册表条目时，你可以使用该事件函数来监测进程。
+
+function ShouldSkipPage(PageID: Integer): Boolean;
+向导调用这个事件函数确定是否在所有页面或不在一个特殊页面(用 PageID 指定)显示。如果返回 True，将跳过该页面；如果你返回 False，该页面被显示。
+
+注意：这个事件函数不被 wpWelcome、wpPreparing 和 wpInstalling 页面调用，还有安装程序已经确定要跳过的页面也不会调用(例如，没有包含组件安装程序的 wpSelectComponents)。
+
+procedure CurPageChanged(CurPageID: Integer);
+在新向导页面(用 CurPageID 指定)显示后调用。
+
+function NeedRestart(): Boolean;
+返回 True 告诉安装程序提示用户在安装结束时重新启动系统，False 则反之。
+
+function PrepareToInstall(var NeedsRestart: Boolean): String;
+你可以使用该事件函数来监测并安装丢失的先决条件和/或关闭任何有关被更新的应用程序。返回非空字串以指示安装程序停止在准备安装向导页面，将返回的字串显示为错误消息。如果需要重新启动，请将 NeedsRestart 设置为 True（并返回非空字串）。如果以这种方式停止安装程序，它将使用安装程序退出代码中所述的专用退出代码退出。在这种情况下，不会使用由 /RESTARTEXITCODE= 命令行参数设置的任何自定义退出代码。
+如果 CloseApplications 设置为 yes，则在安装程序对正在使用的文件检查前，该事件函数被调用。
+仅当安装程序尚未确定无法继续时才会调用此函数，因为 [Files] 和 [InstallDelete] 区段中指定的一个或多个文件已队列（通过某些其他安装），以便在下次重新启动时进行替换或删除。
+
+// 卸载事件函数
+function InitializeUninstall(): Boolean;
+返回 False 中止卸载，True 则反之。
+
+procedure InitializeUninstallProgressForm();
+使用该事件函数对进度窗体在启动时进行更改。你不能使用 InitializeUninstall 事件函数，因为在它被触发时该进度窗体尚不存在。
+
+procedure DeinitializeUninstall();
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+function UninstallNeedRestart(): Boolean;
+返回 True 以指示卸载程序在成功卸载结束时，提示用户重新启动系统，False 则反之。
+</code></pre><h2 id="常见需求">常见需求</h2>
+<h3 id="启用日志">启用日志</h3>
+<pre tabindex="0"><code class="language-PASCAL" data-lang="PASCAL">[Setup]
+SetupLogging=yes
+
+[code]
+procedure CurStepChanged(CurStep: TSetupStep);
+var
+  logfilepathname, logfilename, newfilepathname: string;
+begin
+  logfilepathname := ExpandConstant(&#39;{log}&#39;);
+  logfilename := ExtractFileName(logfilepathname);
+  newfilepathname := ExpandConstant(&#39;{app}&#39;) + logfilename;
+  FileCopy(logfilepathname, newfilepathname, false); // 拷贝下，方便查看
+end;
+</code></pre><h3 id="判断程序有没有在运行">判断程序有没有在运行</h3>
+<ol>
+<li>方法1</li>
+</ol>
+<pre tabindex="0"><code class="language-PASCAL" data-lang="PASCAL">[code]
+// function IsModuleLoaded to call at install time
+// added also setuponly flag
+function IsModuleLoaded(modulename: String ):  Boolean;
+external &#39;IsModuleLoaded@files:psvince.dll stdcall setuponly&#39;;
+
+// 传入Myappexename
+function IsAppRunning(const FileName : string): Boolean;
+var
+    FSWbemLocator: Variant;
+    FWMIService   : Variant;
+    FWbemObjectSet: Variant;
+begin
+    Result := false;
+    try
+      FSWbemLocator := CreateOleObject(&#39;WBEMScripting.SWBEMLocator&#39;);
+      FWMIService := FSWbemLocator.ConnectServer(&#39;&#39;, &#39;root\CIMV2&#39;, &#39;&#39;, &#39;&#39;);
+      FWbemObjectSet := FWMIService.ExecQuery(Format(&#39;SELECT Name FROM Win32_Process Where Name=&#34;%s&#34;&#39;,[FileName]));
+      Result := (FWbemObjectSet.Count &gt; 0);
+      FWbemObjectSet := Unassigned;
+      FWMIService := Unassigned;
+      FSWbemLocator := Unassigned;
+    except
+    // 这些代码不要也可以，就可以不加载IsModuleLoaded
+      if (IsModuleLoaded(FileName)) then
+        begin
+          Result := false;
+        end
+      else
+        begin
+          Result := true;
+        end
+      end;
+end;
+</code></pre><ol start="2">
+<li>方法2
+通过库<strong>psvince.dll</strong>的<strong>IsModuleLoaded</strong>接口来判断程序进程（名称）是否在运行，只能判断，不能结束进程，需要将<strong>psvince.dll</strong>拷贝到<strong>inno setup</strong>安装目录下，还需要拷贝到要打包程序的同级目录下。</li>
+</ol>
+<pre tabindex="0"><code class="language-PASCAL" data-lang="PASCAL">[Files]
+Source: compiler:psvince.dll; Flags: dontcopy noencryption
+
+[code]
+// 安装时判断客户端是否正在运行
+function IsModuleLoaded(modulename: String ): Boolean;
+external &#39;IsModuleLoaded@files:psvince.dll stdcall setuponly&#39;;
+
+function InitializeSetup(): Boolean;
+var
+  IsRunning: boolean;
+  name:String;
+  notice:String;
+begin
+  Result :=true; //安装程序继续
+  name := &#39;程序.exe&#39;;
+  IsRunning:= IsModuleLoaded(name);
+  if IsRunning then
+  begin
+    notice := GetRunningNotice(&#39;&#39;);
+    Msgbox(notice, mbConfirmation, MB_OK);
+    Result :=false; //安装程序退出
+  end;
+end;
+</code></pre><ol start="3">
+<li>方法3
+通过库<strong>IsTask.dll</strong>的<strong>RunTask</strong>接口来判断程序进程（名称）是否在运行，使用接口<strong>KillTask</strong>结束进程,这样就不但能判断，还能结束进程，需要将<strong>ISTask.dll</strong>拷贝到<strong>inno setup</strong>安装目录下，还需要拷贝到要打包程序的同级目录下。</li>
+</ol>
+<pre tabindex="0"><code class="language-PASCAL" data-lang="PASCAL">[Files]
+Source: compiler:ISTask.dll; Flags: dontcopy noencryption
+
+[code]
+// 安装时判断客户端是否正在运行
+function RunTask(FileName: string; bFullpath: Boolean): Boolean;
+external &#39;RunTask@files:ISTask.dll stdcall delayload setuponly&#39;;
+function KillTask(ExeFileName: string): Integer;
+external &#39;KillTask@files:ISTask.dll stdcall delayload setuponly&#39;;
+
+function InitializeSetup(): Boolean;
+var
+  name:String;
+  notice:String;
+begin
+ Result:= true;
+ name := &#39;&#39;程序.exe&#39;;
+ if RunTask(name, false) then
+  begin
+    notice := GetRunningNotice(&#39;&#39;);
+    if MsgBox(notice, mbConfirmation, MB_YESNO) = IDYES then
+      begin
+      KillTask(name);
+      end
+    else
+      Result:= false;
+  end
+end;
+
+
+// 卸载时判断客户端是否正在运行
+function RunTaskU(FileName: string; bFullpath: Boolean): Boolean;
+external &#39;RunTask@{app}/ISTask.dll stdcall delayload uninstallonly&#39;;
+function KillTaskU(ExeFileName: string): Integer;
+external &#39;KillTask@{app}/ISTask.dll stdcall delayload uninstallonly&#39;;
+
+function InitializeUninstall(): Boolean;
+var
+  name:String;
+  notice:String;
+begin
+ Result:= true;
+ name := &#39;&#39;程序.exe&#39;;
+ if RunTaskU(name, false) then
+  begin
+    notice := GetRunningNotice(&#39;&#39;);
+    if MsgBox(notice, mbConfirmation, MB_YESNO) = IDYES then
+      begin
+      KillTaskU(name);
+      end
+    else
+      Result:= false;
+  end
+  UnloadDll(ExpandConstant(&#39;{app}/ISTask.dll&#39;));// 必须要释放，否则卸载不干净
+end;
+</code></pre><h3 id="终结进程">终结进程</h3>
+<p>除了上述几种方法外，还有一种终结进程的方法：</p>
+<pre tabindex="0"><code class="language-PASCAL" data-lang="PASCAL">[code]
+// 通过名称终结进程
+procedure TaskKillProcessByName(AppName: String);
+var
+  WbemLocator : Variant;
+  WMIService   : Variant;
+  WbemObjectSet: Variant;
+  WbemObject   : Variant;
+begin;
+  WbemLocator := CreateOleObject(&#39;WbemScripting.SWbemLocator&#39;);
+  WMIService := WbemLocator.ConnectServer(&#39;localhost&#39;, &#39;root\CIMV2&#39;);
+  WbemObjectSet := WMIService.ExecQuery(&#39;SELECT * FROM Win32_Process Where Name=&#34;&#39; + AppName + &#39;&#34;&#39;);
+  if not VarIsNull(WbemObjectSet) and (WbemObjectSet.Count &gt; 0) then
+  begin
+    WbemObject := WbemObjectSet.ItemIndex(0);
+    if not VarIsNull(WbemObject) then
+    begin
+      WbemObject.Terminate();
+      WbemObject := Unassigned;
+    end;
+  end;
+end;
+</code></pre><h3 id="环境变量的添加和删除">环境变量的添加和删除</h3>
+<pre tabindex="0"><code class="language-PASCAL" data-lang="PASCAL">[code]
+procedure SetEnv(aEnvName, aEnvValue: string; aIsInstall, aIsInsForAllUser: Boolean);
+var
+sOrgValue: string;
+S1, sFileName: string;
+bRetValue, bInsForAllUser: Boolean;
+SL: TStringList;
+x: integer;
+begin
+bInsForAllUser := aIsInsForAllUser;
+if UsingWinNT then
+begin
+    if bInsForAllUser then
+      bRetValue := RegQueryStringValue(HKEY_LOCAL_MACHINE, &#39;SYSTEM\CurrentControlSet\Control\Session Manager\Environment&#39;, aEnvName, sOrgValue)
+    else
+      bRetValue := RegQueryStringValue(HKEY_CURRENT_USER, &#39;Environment&#39;, aEnvName, sOrgValue)
+    sOrgValue := Trim(sOrgValue);
+    begin
+      S1 := aEnvValue;
+      if pos(Uppercase(s1), Uppercase(sOrgValue)) = 0 then //还没有加入
+      begin
+        if aIsInstall then
+        begin
+          x := Length(sOrgValue);
+          if (x &gt; 0) and (StringOfChar(sOrgValue[x], 1) &lt;&gt; &#39;;&#39;) then
+            S1 := &#39;;&#39;+S1;
+            sOrgValue := sOrgValue + S1;
+        end;
+      end else
+      begin
+        if not aIsInstall then
+        begin
+          StringChangeEx(sOrgValue, S1 + &#39;;&#39;, &#39;&#39;, True);
+          StringChangeEx(sOrgValue, S1, &#39;&#39;, True);
+        end;
+      end;
+
+      if bInsForAllUser then
+        RegWriteStringValue(HKEY_LOCAL_MACHINE, &#39;SYSTEM\CurrentControlSet\Control\Session Manager\Environment&#39;, aEnvName, sOrgValue)
+      else
+      begin
+        if (not aIsInstall) and (Trim(sOrgValue) = &#39;&#39;) then
+          RegDeleteValue(HKEY_CURRENT_USER, &#39;Environment&#39;, aEnvName)
+        else
+          RegWriteStringValue(HKEY_CURRENT_USER, &#39;Environment&#39;, aEnvName, sOrgValue);
+      end;
+    end;
+end else //非NT 系统,如Win98
+begin
+    SL := TStringList.Create;
+    try
+      sFileName := ExpandConstant(&#39;{sd}\autoexec.bat&#39;);
+      LoadStringFromFile(sFileName, S1);
+      SL.Text := s1;
+      s1 :=   &#39;&#34;&#39; + aEnvValue + &#39;&#34;&#39;;
+      s1 := &#39;set &#39;+aEnvName +s1 + &#39;=%path%;&#39; ;
+
+      bRetValue := False;
+      x := SL.IndexOf(s1);
+      if x = -1 then
+      begin
+        if aIsInstall then
+        begin
+          SL.Add(s1);
+          bRetValue := True;
+        end;
+      end else //还没添加
+        if not aIsInstall then
+        begin
+          SL.Delete(x);
+          bRetValue := True;
+        end;
+
+      if bRetValue then
+        SL.SaveToFile(sFileName);
+    finally
+      SL.free;
+    end;
+end;
+end;
+</code></pre><h3 id="环境变量中是否包含指定路径">环境变量中是否包含指定路径</h3>
+<pre tabindex="0"><code class="language-PASCAL" data-lang="PASCAL">[code]
+unction NeedsAddPath(Param: string): boolean;
+var
+  OrigPath: string;
+begin
+  if not RegQueryStringValue(HKEY_LOCAL_MACHINE,&#39;SYSTEM\CurrentControlSet\Control\Session Manager\Environment&#39;, &#39;Path&#39;, OrigPath)
+  then begin
+    Result := True;
+    exit;
+  end;
+  // look for the path with leading and trailing semicolon
+  // Pos() returns 0 if not found
+  Result := Pos(&#39;;&#39; + UpperCase(Param) + &#39;;&#39;, &#39;;&#39; + UpperCase(OrigPath) + &#39;;&#39;) = 0;  
+  if Result = True then
+     Result := Pos(&#39;;&#39; + UpperCase(Param) + &#39;\;&#39;, &#39;;&#39; + UpperCase(OrigPath) + &#39;;&#39;) = 0; 
+end;
+</code></pre><h3 id="覆盖安装">覆盖安装</h3>
+<pre tabindex="0"><code class="language-PASCAL" data-lang="PASCAL">[code]
+var
+isskip:Boolean;
+ResultCode:integer;
+gbInstallPath:string;
+
+procedure InitializeWizard();
+begin
+ WizardForm.DirEdit.Text :=gbInstallPath;
+end
+
+// 卸载前通过注册表获得之前的安装路径并保存
+function getpath(AppName: String):string
+begin
+  if RegQueryStringValue(&#39;自己的参数&#39;,gbInstallPath) then
+     result := gbInstallPath
+  else
+     result := WizardForm.DirEdit.Text;
+end;
+
+
+// 在InitializeSetup时如果检测到需要覆盖安装，则静默卸载
+gbInstallPath := gbInstallPath(ResultStr); 
+Exec(gbInstallPath, &#39;/silent&#39;, &#39;&#39;, SW_HIDE, ewWaitUntilTerminated, ResultCode); 
+
+将程序中所有用到{app}的地方替换为{code:getpath}
+
+跳过相关的安装页（比如欢迎页、选择安装位置页、创建快捷方式页等）
+function ShouldSkipPage(PageID: Integer): Boolean; //在这个函数中选择你想跳过的页返回true
+</code></pre>
+
+    </div>
+    <footer class="post-footer">
+      
+
+<div class="post-tags">
+  
+    <a href="/tags/inno-setup">
+    inno-setup
+  </a>
+</div>
+
+<div class="addthis_inline_share_toolbox" style="text-align: center;"></div>
+<hr/>
+
+
+
+<div class="post-copyright">
+  <img src="/imgs/cc/cc.svg" width="75" height="75" align="right" />
+  <ul>
+    <li class="post-copyright-title">
+      <strong>文章标题：</strong>
+      innosetup笔记
+    </li>
+    <li class="post-copyright-author">
+      <strong>本文作者： </strong>
+      孟方方
+    </li>
+    <li class="post-copyright-link"> 
+      <strong>本文链接：</strong>
+       <a id="post-cr-link" href="https://github.com/yfmff/yfmff.github.io.git/post/others/innosetup/" title="innosetup笔记">https://github.com/yfmff/yfmff.github.io.git/post/others/innosetup/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <i class="fab fa-fw fa-creative-commons"></i><a target='_blank' href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh'>BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</div>
+
+<div class="post-nav">
+  <div class="post-nav-next post-nav-item">
+    <a href="/yfmff/yfmff.github.io.git/post/linux/linuxgcc/" rel="next" title="gcc">
+      <i class="fa fa-chevron-left"></i> gcc
+    </a>
+  </div>
+  <div class="post-nav-prev post-nav-item">
+    <a href="/yfmff/yfmff.github.io.git/post/linux/linuxbase2/" rel="prev" title="linux基础(二)">
+      linux基础(二)
+      <i class="fa fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+    </footer>
+  </article>
+</div>
+<div id="comments" class="post-comments">
+  <div class="comment-head">
+    <div class="comment-headline">
+      <i class="fas fa-comments fa-fw"></i>
+      <span>评论交流</span>
+    </div>
+    <div class="comment-switch">
+      <span class="first-comment">Giscus</span>
+      <span class="switch-btn "></span>
+      <span class="second-comment">Waline</span>
+    </div>
+  </div>
+  <div class="comment-wrap">
+  
+    <div><div class="comment-loading">
+  <i class="fa fa-sync fa-spin"></i>
+</div><div class="giscus-container"></div>
+    </div>
+    <div><div class="comment-loading">
+  <i class="fa fa-sync fa-spin"></i>
+</div><div class="waline-container"></div>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-inner">
+
+<div class="copyright">
+  &copy;
+  <span itemprop="copyrightYear">
+    2020 - 2022
+  </span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟方方</span>
+</div>
+
+
+    </div>
+  </footer> 
+  
+  <script type="text/javascript" src="https://unpkg.com/animejs@3.2.1/lib/anime.min.js" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"bookmark":{"color":"#222","enable":true,"save":"manual"},"copybtn":true,"darkmode":true,"giscus":{"cfg":{"category":"Comments","categoryid":null,"emit":false,"inputposition":"top","mapping":"title","reactions":false,"repo":"username/repo-name","repoid":null,"theme":"preferred_color_scheme"},"js":"https://giscus.app/client.js"},"hostname":"https://github.com/yfmff/yfmff.github.io.git","i18n":{"ds_day":" 天前","ds_days":" 天 ","ds_hour":" 小时前","ds_hours":" 小时 ","ds_just":"刚刚","ds_min":" 分钟前","ds_mins":" 分钟","ds_month":" 个月前","ds_years":" 年 ","empty":"没有找到任何搜索结果：${query}","hits":"","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","placeholder":"搜索..."},"lang":"zh-CN","lazyload":false,"localSearch":{"enable":true,"path":"/searchindexes.xml","preload":false,"topnperarticle":-1,"trigger":"auto","unescape":false},"motion":{"async":true,"enable":true,"transition":{"collheader":"fadeInLeft","postblock":"fadeIn","postbody":"fadeInDown","postheader":"fadeInDown","sidebar":"fadeInUp"}},"root":"/","scheme":"Gemini","sidebar":{"display":"post","offset":12,"padding":18,"position":"left","width":256},"vendor":{"plugins":"unpkg","router":"https://unpkg.com"},"version":"4.3.1","waline":{"cfg":{"emoji":false,"imguploader":false,"pageview":"#waline-pageview-count","placeholder":"请文明发言哟 ヾ(≧▽≦*)o","reaction":true,"reactiontext":["点赞","踩一下","得意","不屑","尴尬","睡觉"],"reactiontitle":"你认为这篇文章怎么样？","requiredmeta":["nick","mail"],"serverurl":null,"sofa":"快来发表你的意见吧 (≧∀≦)ゞ","wordlimit":200},"css":{"alias":"waline","file":"dist/waline.css","name":"@waline/client","version":"2.11.3"},"js":{"alias":"waline","file":"dist/waline.js","name":"@waline/client","version":"2.11.3"}}}</script>
+
+
+
+
+
+
+
+<script type="text/javascript" src="/yfmff/yfmff.github.io.git/js/main.min.a4d8b33d4c8124fe3decce5ba14a2fb8a224b7b21d44ff1628572420961912bf.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
