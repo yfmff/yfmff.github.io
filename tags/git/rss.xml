@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on 孟方方的博客</title>
+    <link>https://gitee.com/miffy-fly/Blog.git/tags/git/</link>
+    <description>Recent content in git on 孟方方的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 12 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gitee.com/miffy-fly/Blog.git/tags/git/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>git相关操作</title>
+      <link>https://gitee.com/miffy-fly/Blog.git/post/others/gitnote/</link>
+      <pubDate>Mon, 12 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gitee.com/miffy-fly/Blog.git/post/others/gitnote/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

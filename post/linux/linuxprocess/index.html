@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)" />
+<meta name="generator" content="Hugo 0.104.3" />
+<link rel="shortcut icon" type="image/x-icon" href="/sys/favor.jpg">
+<link rel="icon" type="image/x-icon" href="/sys/favor.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="/sys/favor.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="/sys/favor.jpg">
+<link rel="apple-touch-icon" sizes="180x180" href="/sys/favor.jpg">
+<meta itemprop="name" content="Linux 进程" />
+<meta itemprop="description" content="今天学习的是linux中进程的相关知识" />
+<meta itemprop="datePublished" ZgotmplZ />
+<meta itemprop="dateModified" ZgotmplZ />
+<meta itemprop="image" content="https://gitee.com/sys/head.jpg" />
+<meta itemprop="keywords" content="" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Linux 进程" />
+<meta property="og:description" content="今天学习的是linux中进程的相关知识" />
+<meta property="og:image" content="/sys/head.jpg" />
+<meta property="og:image:width" content="312" />
+<meta property="og:image:height" content="312" />
+<meta property="og:image:type" content="image/jpeg/png/svg/jpg" />
+<meta property="og:url" content="https://gitee.com/miffy-fly/Blog.git/post/linux/linuxprocess/"/>
+<meta property="og:site_name" content="孟方方的博客" />
+<meta property="og:locale" content="zh-CN"/>
+<meta property="article:author" content="孟方方" />
+<meta property="article:published_time" content="2022-10-19 00:00:00 &#43;0000 UTC" />
+<meta property="article:modified_time" content="2022-10-19 00:00:00 &#43;0000 UTC" />
+
+
+  
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.1.2/css/all.min.css" />
+  
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" />
+
+
+<link rel="stylesheet" href="/miffy-fly/Blog.git/css/main.min.c443fa3d6006bbe686c787cccb9273c628499f2cc10d7ab4712962d7eedb3f58.css">
+  <style type="text/css">
+    .post-footer, .flinks-list-footer hr:after {
+      content: "~ 我可是有底线的哟 ~";
+    }
+  </style>
+  <script class="next-config" data-name="page" type="application/json">{"comments":false,"isHome":false,"isPage":true,"path":"linuxprocess","permalink":"https://gitee.com/miffy-fly/Blog.git/post/linux/linuxprocess/","title":"Linux 进程"}</script>
+  <script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', () => {
+    var script = document.createElement('script');
+      
+    script.charset = "UTF-8";
+    script.src     = "https:\/\/busuanzi.ibruce.info\/busuanzi\/2.3\/busuanzi.pure.mini.js";
+    script.async   = "true"
+
+    document.head.appendChild(script);
+  });
+</script>
+
+
+
+
+  <title>Linux 进程 - 孟方方的博客</title>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage"  class="use-motion" >
+  <div class="headband"></div>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">孟方方的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+    
+      <p class="site-subtitle" itemprop="description">新的一天，开始了</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+      
+      <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+    <li class="menu-item menu-item-home">
+      <a href="/miffy-fly/Blog.git/" class="hvr-icon-pulse " rel="section"><i class="fa fa-home hvr-icon"></i>首页
+      </a>
+    </li>
+    <li class="menu-item menu-item-about">
+      <a href="/miffy-fly/Blog.git/about.html" class="hvr-icon-pulse " rel="section"><i class="fa fa-user hvr-icon"></i>关于
+      </a>
+    </li>
+    <li class="menu-item menu-item-archives">
+      <a href="/miffy-fly/Blog.git/archives/" class="hvr-icon-pulse " rel="section"><i class="fa fa-archive hvr-icon"></i>归档
+        <span class="badge">42</span>
+      </a>
+    </li>
+    <li class="menu-item menu-item-search">
+      <a role="button" class="popup-trigger hvr-icon-pulse"><i class="fa fa-search fa-fw hvr-icon"></i>搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+    </div>
+  </div>
+      </div>
+      <div class="toggle sidebar-toggle" role="button">
+  <span class="toggle-line"></span>
+  <span class="toggle-line"></span>
+  <span class="toggle-line"></span>
+</div>
+<aside class="sidebar">
+  
+  <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-toc">
+        文章目录
+      </li>
+      <li class="sidebar-nav-overview">
+        站点概览
+      </li>
+    </ul>
+    <div class="sidebar-panel-container">
+      
+      <div class="post-toc-wrap sidebar-panel">
+        <div class="post-toc animated"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是进程">什么是进程</a></li>
+    <li><a href="#并行和并发">并行和并发</a></li>
+    <li><a href="#进程命令">进程命令</a></li>
+    <li><a href="#创建进程">创建进程</a>
+      <ul>
+        <li><a href="#fork">fork()</a></li>
+      </ul>
+    </li>
+    <li><a href="#execl-和-execlp">execl 和 execlp</a>
+      <ul>
+        <li><a href="#execl">execl</a></li>
+        <li><a href="#execlp">execlp()</a></li>
+      </ul>
+    </li>
+    <li><a href="#控制进程">控制进程</a>
+      <ul>
+        <li><a href="#结束进程">结束进程</a></li>
+        <li><a href="#孤儿进程">孤儿进程</a></li>
+        <li><a href="#僵尸进程">僵尸进程</a></li>
+        <li><a href="#回收进程">回收进程</a>
+          <ul>
+            <li><a href="#wait">wait</a></li>
+            <li><a href="#waitpid">waitpid</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div>
+      
+      <div class="site-overview-wrap sidebar-panel">
+<div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="孟方方"
+      src="/sys/head.jpg">
+  <p class="site-author-name" itemprop="name">孟方方</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+    <div class="site-state-item site-state-posts">
+      <a href="/archives/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">日志</span>
+      </a>
+    </div>
+    <div class="site-state-item site-state-categories">
+      <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+      </a>
+    </div>
+    <div class="site-state-item site-state-tags">
+      <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+      </a>
+    </div>
+  </nav>
+</div>
+<div class="links-of-social site-overview-item animated">
+
+
+  <span class="links-of-social-item">
+    <a href="mailto:1227502607@qq.com" title="E-Mail → mailto:1227502607@qq.com" rel="noopener" class="hvr-icon-pulse" target="_blank">
+      <i class="fa fa-envelope fa-fw  hvr-icon "></i>E-Mail
+    </a>
+  </span>
+</div>
+<div class="cc-license animated" itemprop="license">
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank" title="共享知识">
+    <img src="/imgs/cc/big/by_nc_sa.svg" alt="共享知识">
+  </a>
+</div>
+      </div>
+    </div>
+   
+  </div>
+<div class="sidebar-card-widget">
+  <div class="item-headline">
+    <i class="fas fa-chart-line"></i>
+    <span>网站资讯</span>
+  </div>
+  <div class="siteinfo">
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa-solid fa-calendar-check"></i>已运行：</div>
+      <div class="item-count" id="runTimes" data-publishdate="2021-09-02T00:00:00&#43;00:00"></div>
+    </div>
+      <div class="siteinfo-item">
+        <div class="item-name">
+          <i class="fas fa fa-user"></i>总访客数：
+        </div>
+        <div class="item-count" id="busuanzi_value_site_uv"></div>
+      </div>
+      <div class="siteinfo-item">
+        <div class="item-name">
+          <i class="fas fa fa-eye"></i>页面浏览：
+        </div>
+        <div class="item-count" id="busuanzi_value_site_pv"></div>
+      </div>
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa fa-font"></i>总字数：</div>
+      <div class="item-count" id="wordsCount" data-count="84337"></div>
+    </div>
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa fa-mug-hot"></i>阅读约：</div>
+      <div class="item-count" id="readTimes" data-times="192"></div>
+    </div>
+    <div class="siteinfo-item">
+      <div class="item-name"><i class="fa fa-clock-rotate-left"></i>最后更新于：</div>
+      <div class="item-count" id="last-push-date" data-lastpushdate="2022-10-19T00:00:00&#43;00:00"></div>
+    </div>
+  </div>
+</div>
+</aside>
+<div class="sidebar-dimmer"></div>
+
+    </header>
+    
+    <div class="tool-buttons" >
+  <a id="goto-comments" class="button goto-comments" href="#comments"  title="直达评论">
+    <i class="fas fa-comments"></i>
+  </a> 
+  <div id="switch-theme" class="button" title="深浅模式切换">
+    <i class="fas fa-adjust"></i>
+  </div> 
+  
+  <div class="back-to-top" role="button" title="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div> 
+</div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+    <div class="main-inner post posts-expand">
+      
+  <div class="post-block">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://gitee.com/miffy-fly/Blog.git/post/linux/linuxprocess/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/sys/head.jpg">
+      <meta itemprop="name" content="孟方方">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="孟方方">
+      <meta itemprop="description" content="">
+    </span>
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux 进程">
+      <meta itemprop="description" content="今天学习的是linux中进程的相关知识">
+    </span>
+    <header class="post-header">
+       <h1 class="post-title" itemprop="name headline">Linux 进程 </h1> <div class="post-meta-container">
+  <div class="post-meta-items">
+    
+
+
+<span class="post-meta-item">
+  <span class="post-meta-item-icon">
+    <i class="far fa-calendar"></i>
+  </span>
+  <span class="post-meta-item-text">发表于：</span>
+  <time title="发表于：2022-10-19 00:00:00 &#43;0000 UTC" itemprop="dateCreated datePublished" datetime="2022-10-19 00:00:00 &#43;0000 UTC">2022-10-19</time>
+</span>
+    
+    
+<span class="post-meta-item">
+  <span class="post-meta-item-icon">
+    <i class="far fa-folder-open"></i>
+  </span>
+  <span class="post-meta-item-text">分类于：</span>
+  <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+    <a href="/categories/linux" itemprop="url" rel="index">
+      <span itemprop="name">linux</span>
+    </a>
+  </span>
+</span>
+  </div>
+  <div class="post-meta-items">
+    
+<span class="post-meta-item" title="字数">
+  <span class="post-meta-item-icon">
+    <i class="far fa-file-word"></i>
+  </span>
+  <span class="post-meta-item-text">字数：</span><span>5456</span>
+</span>
+    
+<span class="post-meta-item" title="阅读">
+  <span class="post-meta-item-icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span class="post-meta-item-text">阅读：&asymp;</span>
+  <span>11分钟</span>
+</span>
+
+    
+<span class="post-meta-item" title="浏览">
+  <span class="post-meta-item-icon">
+    <i class="far fa-eye"></i>
+  </span>
+  <span class="post-meta-item-text">
+  浏览：
+  </span>
+  <span id="busuanzi_value_page_pv" data-path="/miffy-fly/Blog.git/post/linux/linuxprocess/"><i class="fa fa-sync fa-spin"></i></span>
+</span>
+
+  </div>
+  
+</div>
+
+    </header>
+    
+    <div class="post-body  autonumber " itemprop="articleBody">
+      
+  <p><img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimages3.10qianwan.com%2F10qianwan%2F20180818%2Fb_0_201808181354183725.jpg&amp;refer=http%3A%2F%2Fimages3.10qianwan.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1668783003&amp;t=8703e07e2804cbc5b123556ecc014bc1" alt=""></p>
+<h2 id="什么是进程">什么是进程</h2>
+<p>在说清楚进程这个概念前，可以试想下这样的场景：我从网上下载微信的安装包，点击安装在D盘的weichat文件夹，但是我并没有马上双击图标运行它，而打开任务管理器也看不到微信，此时微信只是占用了我的磁盘文件，没占用内存，CPU也不必给它分配时间片，现在的它和我自己写了个word文档没太大区别。这时，称wechat文件夹中的是一个<strong>程序</strong>，它和word文档的唯一区别是它能运行。而一旦我们双击微信图标让它运行，任务管理器就能看到它的身影了，而通过它进行收发消息需要CPU的帮助，占用了系统资源，此时，微信就是一个<strong>进程</strong>了。</p>
+<p>通过以上场景，可以发现，程序是个资源，类似库存，而进程则是运行时才会产生：资源是进程的必要不充分条件。
+程序执行后，相关资源就会被加载到内存中，每个运行的进程都会消耗系统资源，而系统为了方便管理，对每个进程都分配了专属的<strong>虚拟地址空间</strong>。</p>
+<h2 id="并行和并发">并行和并发</h2>
+<p>这两个词语经常能听见，但这个词差别很大。比如去做核酸，人比较多。如果是并行的话，一个地点有<strong>多个核酸亭</strong>，多个核酸亭同时运行，外人看来就是这几队的人在同时往前走，这叫<strong>并行</strong>。而如果一个地点虽然人多，但是<strong>只有一个核酸亭</strong>，但是人分别排了好几个队伍，核酸亭内的工作人员只能一个隔着一个的，检测一个A队的，再检测一个B队的，外人看来，这两个队的人仍然在往前走，和并行类似，这种情况叫<strong>并发</strong>。可见，并发是假的，如果把核酸亭的工作人员看作CPU，则是CPU不断切换时间片来达到并发效果，负载相较并行肯定要大的多，毕竟同样体质下，一个人怎么都比不过两个人的效率嘛。</p>
+<h2 id="进程命令">进程命令</h2>
+<p>Linux上想查看当前有多少进程在运行，可使用<strong>PS aux</strong>命令，其中，a: 查看所有终端的信息，u: 查看用户相关的信息，x: 显示和终端无关的进程信息。</p>
+<p>想要终结进程，则使用<strong>klll</strong>。kill命令可以发送某个信号到对应的进程，进程收到某些信号之后默认的处理动作就是退出进程，如果要给进程发送信号，可以先查看一下Linux提供了哪些标准信号。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-1"> 1</a></span><span>$ kill -l
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-2"> 2</a></span><span> 1<span style="color:#f92672">)</span> SIGHUP       2<span style="color:#f92672">)</span> SIGINT       3<span style="color:#f92672">)</span> SIGQUIT      4<span style="color:#f92672">)</span> SIGILL       5<span style="color:#f92672">)</span> SIGTRAP
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-3"> 3</a></span><span> 6<span style="color:#f92672">)</span> SIGABRT      7<span style="color:#f92672">)</span> SIGBUS       8<span style="color:#f92672">)</span> SIGFPE       9<span style="color:#f92672">)</span> SIGKILL     10<span style="color:#f92672">)</span> SIGUSR1
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-4"> 4</a></span><span>11<span style="color:#f92672">)</span> SIGSEGV     12<span style="color:#f92672">)</span> SIGUSR2     13<span style="color:#f92672">)</span> SIGPIPE     14<span style="color:#f92672">)</span> SIGALRM     15<span style="color:#f92672">)</span> SIGTERM
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-5"> 5</a></span><span>16<span style="color:#f92672">)</span> SIGSTKFLT   17<span style="color:#f92672">)</span> SIGCHLD     18<span style="color:#f92672">)</span> SIGCONT     19<span style="color:#f92672">)</span> SIGSTOP     20<span style="color:#f92672">)</span> SIGTSTP
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-6"> 6</a></span><span>21<span style="color:#f92672">)</span> SIGTTIN     22<span style="color:#f92672">)</span> SIGTTOU     23<span style="color:#f92672">)</span> SIGURG      24<span style="color:#f92672">)</span> SIGXCPU     25<span style="color:#f92672">)</span> SIGXFSZ
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-7"> 7</a></span><span>26<span style="color:#f92672">)</span> SIGVTALRM   27<span style="color:#f92672">)</span> SIGPROF     28<span style="color:#f92672">)</span> SIGWINCH    29<span style="color:#f92672">)</span> SIGIO       30<span style="color:#f92672">)</span> SIGPWR
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-8"> 8</a></span><span>31<span style="color:#f92672">)</span> SIGSYS      34<span style="color:#f92672">)</span> SIGRTMIN    35<span style="color:#f92672">)</span> SIGRTMIN+1  36<span style="color:#f92672">)</span> SIGRTMIN+2  37<span style="color:#f92672">)</span> SIGRTMIN+3
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-9"> 9</a></span><span>38<span style="color:#f92672">)</span> SIGRTMIN+4  39<span style="color:#f92672">)</span> SIGRTMIN+5  40<span style="color:#f92672">)</span> SIGRTMIN+6  41<span style="color:#f92672">)</span> SIGRTMIN+7  42<span style="color:#f92672">)</span> SIGRTMIN+8
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-10">10</a></span><span>43<span style="color:#f92672">)</span> SIGRTMIN+9  44<span style="color:#f92672">)</span> SIGRTMIN+10 45<span style="color:#f92672">)</span> SIGRTMIN+11 46<span style="color:#f92672">)</span> SIGRTMIN+12 47<span style="color:#f92672">)</span> SIGRTMIN+13
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-11">11</a></span><span>48<span style="color:#f92672">)</span> SIGRTMIN+14 49<span style="color:#f92672">)</span> SIGRTMIN+15 50<span style="color:#f92672">)</span> SIGRTMAX-14 51<span style="color:#f92672">)</span> SIGRTMAX-13 52<span style="color:#f92672">)</span> SIGRTMAX-12
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-12">12</a></span><span>53<span style="color:#f92672">)</span> SIGRTMAX-11 54<span style="color:#f92672">)</span> SIGRTMAX-10 55<span style="color:#f92672">)</span> SIGRTMAX-9  56<span style="color:#f92672">)</span> SIGRTMAX-8  57<span style="color:#f92672">)</span> SIGRTMAX-7
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-13">13</a></span><span>58<span style="color:#f92672">)</span> SIGRTMAX-6  59<span style="color:#f92672">)</span> SIGRTMAX-5  60<span style="color:#f92672">)</span> SIGRTMAX-4  61<span style="color:#f92672">)</span> SIGRTMAX-3  62<span style="color:#f92672">)</span> SIGRTMAX-2
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-14">14</a></span><span>63<span style="color:#f92672">)</span> SIGRTMAX-1  64<span style="color:#f92672">)</span> SIGRTMAX
+</span></span></code></pre></div><p>比如我想终结某个进程，可以这样写：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-1">1</a></span><span>kill -9 进程ID
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-2">2</a></span><span>kill -SIGKILL 进程ID
+</span></span></code></pre></div><h2 id="创建进程">创建进程</h2>
+<p>linux中进程ID是<strong>pid_t</strong>类型，本质上就是一个正整数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-c" data-lang="c"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-1"> 1</a></span><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-2"> 2</a></span><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-3"> 3</a></span><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-4"> 4</a></span><span><span style="color:#75715e">// 获取当前进程ID
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-5"> 5</a></span><span><span style="color:#75715e"></span>pid_t <span style="color:#a6e22e">getpid</span>(<span style="color:#66d9ef">void</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-6"> 6</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-7"> 7</a></span><span><span style="color:#75715e">//获取当前进程的父进程ID（PPID）
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-8"> 8</a></span><span><span style="color:#75715e"></span>pid_t <span style="color:#a6e22e">getppid</span>(<span style="color:#66d9ef">void</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-9"> 9</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-10">10</a></span><span><span style="color:#75715e">// 创建一个进程，返回它的ID
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-2-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-2-11">11</a></span><span><span style="color:#75715e"></span>pid_t <span style="color:#a6e22e">fork</span>(<span style="color:#66d9ef">void</span>);
+</span></span></code></pre></div><h3 id="fork">fork()</h3>
+<p>用fork()可创建一个进程，看起来很简单。但是，这个函数并不像表面上这么简单==。我们启动一个程序，得到一个进程，如果在这个进程里调用fork，就像生孩子一样，从它里面又生出了一个进程，叫子进程。</p>
+<p>每个进程都有独立的虚拟地址空间，而子进程是“生”出来的，那么其地址空间自然是从父进程那<strong>拷贝</strong>出来的，但是只是在拷贝完成的那一刻是一样的，之后就是孩子出去自立门户，个人各扫门前雪喽，个人的地址空间里的数据就各不相同了。
+进程所占的地址空间分两个区：<strong>内核区</strong>和<strong>用户区</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-1"> 1</a></span><span>父进程                          子进程
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-2"> 2</a></span><span>--------                       -------
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-3"> 3</a></span><span>内核区域                        内核区域
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-4"> 4</a></span><span>----------                     --------
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-5"> 5</a></span><span>用户区内容：                    用户区内容：
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-6"> 6</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-7"> 7</a></span><span>环境变量                        环境变量
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-8"> 8</a></span><span>  栈                              栈
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-9"> 9</a></span><span>内存映射区                      内存映射区
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-10">10</a></span><span>堆                               堆
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-11">11</a></span><span>.bss                            .bss
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-12">12</a></span><span>.data                           .data
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-3-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-3-13">13</a></span><span>.text                           .text
+</span></span></code></pre></div><p><strong>相同点：</strong></p>
+<ul>
+<li>代码区：因为是父进程生下来的，姓氏一样，而代码就代表姓氏，父子进程的代码区<code>内容相同</code>。</li>
+<li>全局数据区/堆区/内存映射区/栈区/环境变量/<strong>文件描述符表</strong>：父进程的这些家当，也被拷贝了一份。特别注意，文件描述表也被拷贝了，这意味着父进程能找到的文件，子进程也可以。</li>
+</ul>
+<p><strong>不同点</strong></p>
+<ul>
+<li>父子分家了，地址空间独立，互不影响，数据<strong>不会</strong>相互覆盖。</li>
+<li>父子进程中代码虽然一样，但是不代表它们执行的进度一样。</li>
+<li>进程启动之后进入就绪态，运行需要争抢CPU时间片而且可能执行不同的业务逻辑，这也是父子进程虽然代码一样，但是运行状态可能是不同的原因。</li>
+<li>fork调用成功之后，会返回<strong>两个值</strong>，父子进程的返回值不同。因为父进程生了一个子进程出来，父进程本身就有一个ID，生的子进程也要给它一个ID啊。父进程返回的ID是个<code>大于0</code>的数，子进程返回的数是<code>0</code>，以此做区分。因此，我们需要根据fork的返回值来判断当前进程是谁。</li>
+</ul>
+<p>举个例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-1"> 1</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-2"> 2</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-3"> 3</a></span><span>    <span style="color:#75715e">// 在父进程中创建子进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-4"> 4</a></span><span><span style="color:#75715e"></span>    pid_t pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-5"> 5</a></span><span>    printf(<span style="color:#e6db74">&#34;当前进程fork()的返回值: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-6"> 6</a></span><span>    <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-7"> 7</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-8"> 8</a></span><span>        <span style="color:#75715e">// 父进程执行的逻辑
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-9"> 9</a></span><span><span style="color:#75715e"></span>        printf(<span style="color:#e6db74">&#34;我是父进程, pid = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-10">10</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-11">11</a></span><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-12">12</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-13">13</a></span><span>        <span style="color:#75715e">// 子进程执行的逻辑
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-14">14</a></span><span><span style="color:#75715e"></span>        printf(<span style="color:#e6db74">&#34;我是子进程, pid = %d, 我爹是: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid(), getppid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-15">15</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-16"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-16">16</a></span><span>    <span style="color:#66d9ef">else</span> <span style="color:#75715e">// pid == -1
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-17"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-17">17</a></span><span><span style="color:#75715e"></span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-18"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-18">18</a></span><span>        <span style="color:#75715e">// 创建子进程失败了
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-19"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-19">19</a></span><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-20"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-20">20</a></span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-21"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-21">21</a></span><span>    <span style="color:#75715e">// 不加判断, 父子进程都会执行这个循环
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-22"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-22">22</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span>; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-23"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-23">23</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-24"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-24">24</a></span><span>        printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, i);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-25"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-25">25</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-26"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-26">26</a></span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-4-27"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-4-27">27</a></span><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span></code></pre></div><div class="note warning ">
+  第21行为毛会父子都执行呢？这里要注意的是，子进程在哪个地方创建，它就拥有了父进程的所有代码，在它创建完成时它就开始执行了，上例来说就是，它在第4行创建，它就从第5行开始运行了，和父进程无关了。换句话说就是相当于你双开了微信。
+为了加深理解，可以做个简单例子：在一个父进程里循环创建3个子进程，最后得到4个进程。正确代码是：
+</div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-1"> 1</a></span><span><span style="color:#75715e">// 需要在上边的程序中控制不让子进程, 再创建子进程即可
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-2"> 2</a></span><span><span style="color:#75715e">// process_loop.c
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-3"> 3</a></span><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-4"> 4</a></span><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-5"> 5</a></span><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-6"> 6</a></span><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-7"> 7</a></span><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-8"> 8</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-9"> 9</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-10">10</a></span><span>    pid_t pid;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-11">11</a></span><span>    <span style="color:#75715e">// 在循环中创建子进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-12">12</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span>; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-13">13</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-14">14</a></span><span>        pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-15">15</a></span><span>        <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#75715e">// 必须加，不然子进程也会执行
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-16"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-16">16</a></span><span><span style="color:#75715e"></span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-17"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-17">17</a></span><span>            <span style="color:#75715e">// 不让子进程执行循环, 直接跳出
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-18"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-18">18</a></span><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-19"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-19">19</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-20"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-20">20</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-21"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-21">21</a></span><span>    printf(<span style="color:#e6db74">&#34;当前进程pid: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-22"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-22">22</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-23"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-23">23</a></span><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-5-24"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-5-24">24</a></span><span>}
+</span></span></code></pre></div><h2 id="execl-和-execlp">execl 和 execlp</h2>
+<p><div class="note warning ">
+  一般不会直接在主进程调用这些函数，而是创建一个进程来执行，这样就可以和主进程隔离。
+</div>
+有时我们会通过现在运行的程序打开另一个程序，比如我在浏览器里想下载视频，点击链接就会自动打开迅雷。这时，可用<strong>exec</strong>系列函数。函数原型如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-1"> 1</a></span><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-2"> 2</a></span><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-3"> 3</a></span><span><span style="color:#66d9ef">extern</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>environ;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-4"> 4</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">execl</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>path, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg, ...
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-5"> 5</a></span><span>          <span style="color:#75715e">/* (char  *)</span> NULL <span style="color:#960050;background-color:#1e0010">*/</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-6"> 6</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">execlp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>file, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg, ...
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-7"> 7</a></span><span>           <span style="color:#75715e">/* (char  *)</span> NULL <span style="color:#960050;background-color:#1e0010">*/</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-8"> 8</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">execle</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>path, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg, ...
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-9"> 9</a></span><span>           <span style="color:#75715e">/*, (char *)</span> NULL, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">const</span> envp[] <span style="color:#960050;background-color:#1e0010">*/</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-10">10</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">execv</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>path, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> argv[]);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-11">11</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">execvp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>file, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> argv[]);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-12">12</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">execvpe</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>file, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> argv[],
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-6-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-6-13">13</a></span><span>            <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> envp[]);
+</span></span></code></pre></div><div class="note danger ">
+  这些函数执行成功后不会返回，因为调用进程的实体，包括代码段，数据段和堆栈等都已经被新的内容取代（也就是说用户区数据基本全部被替换掉了），只留下进程 ID 等一些表面上的信息仍保持原样,调用失败了，它们才会返回一个 -1，从原程序的调用点接着往下执行。换句话说，就是预先创建一个进程，然后把这个进程的位置、资源全让出来给新的进程。
+</div>
+<h3 id="execl">execl</h3>
+<p>可用于执行任意一个可执行程序，函数需要通过指定的文件路径才能找到这个可执行程序。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-1">1</a></span><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-2">2</a></span><span><span style="color:#75715e"></span><span style="color:#75715e">// 变参函数
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-7-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-7-3">3</a></span><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">execl</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>path, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg, ...);
+</span></span></code></pre></div><p>其中：   <br>
+path: 要启动的可执行程序的路径，推荐使用绝对路径。
+arg：ps aux 查看进程的时候，启动的进程的名字，可以随意指定，一般和要启动的可执行程序名相同。     <br>
+&hellip;：参数列表，最后以null结尾。  <br>
+返回值：执行成功则没有返回值，执行失败返回-1；</p>
+<h3 id="execlp">execlp()</h3>
+<p>常用于执行<strong>已经设置了环境变量</strong>的可执行程序，函数中的p就是path，也是说这个函数会自动搜索系统的环境变量PATH，因此使用这个函数执行可执行程序不需要指定路径，只需要指定出名字即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-1">1</a></span><span><span style="color:#75715e">// p == path
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-8-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-8-2">2</a></span><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">execlp</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>file, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>arg, ...);
+</span></span></code></pre></div><p>其中：   <br>
+file：程序的名字（没有在环境变量PATH中，可执行程序需要指定绝对路径）。   <br>
+arg/&hellip;/返回值：同上。</p>
+<h2 id="控制进程">控制进程</h2>
+<h3 id="结束进程">结束进程</h3>
+<p>在进程的任何位置调用exit(int status)或者_exit(int status)函数都可以退出当前进程，status为进程退出时返回的退出码。</p>
+<h3 id="孤儿进程">孤儿进程</h3>
+<p>父进程创建子进程后<strong>先退出了</strong>，独留子进程在人间，成了<strong>孤儿</strong>。linux当检测到这个进程是个孤儿时，会有一个固定的进程来认养它。
+<div class="note info ">
+  这时为什么呢？子进程会拷贝父进程的家当，当它自己退出后，用户区的资源自己可以释放，但是内核区的资源它无权释放，只能由父进程释放。系统通过给他指定个干爹来做这件事，防止资源浪费。
+</div></p>
+<h3 id="僵尸进程">僵尸进程</h3>
+<p><blockquote class="blockquote-center">
+  有的人活着，但它已经死了，但有的人死了，他永远活着。
+</blockquote>
+这是很出名的格言，但是，如果操作系统中出现死了的线程还占着资源的情况的话，就比较麻烦了。
+<div class="note info ">
+  僵尸进程不能将它看成是一个正常的进程，这个进程已经死亡了，用户区资源已经被释放了，只是还占用着一些内核资源（PCB）
+</div>
+我们创建个僵尸进程：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-1"> 1</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-2"> 2</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-3"> 3</a></span><span>    pid_t pid;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-4"> 4</a></span><span>    <span style="color:#75715e">// 创建子进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-5"> 5</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span>; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-6"> 6</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-7"> 7</a></span><span>        pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-8"> 8</a></span><span>        <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-9"> 9</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-10">10</a></span><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-11">11</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-12">12</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-13">13</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-14">14</a></span><span>    <span style="color:#75715e">// 父进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-15">15</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-16"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-16">16</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-17"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-17">17</a></span><span>        <span style="color:#75715e">// 需要保证父进程一直在运行
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-18"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-18">18</a></span><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 一直运行不退出, 并且也做回收, 就会出现僵尸进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-19"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-19">19</a></span><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-20"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-20">20</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-21"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-21">21</a></span><span>            printf(<span style="color:#e6db74">&#34;我是父进程, pid=%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-22"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-22">22</a></span><span>            sleep(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-23"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-23">23</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-24"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-24">24</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-25"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-25">25</a></span><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-26"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-26">26</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-27"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-27">27</a></span><span>        <span style="color:#75715e">// 子进程, 执行这句代码之后, 子进程退出了
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-28"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-28">28</a></span><span><span style="color:#75715e"></span>        printf(<span style="color:#e6db74">&#34;我是子进程, pid=%d, 父进程ID: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid(), getppid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-29"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-29">29</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-30"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-30">30</a></span><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-9-31"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-9-31">31</a></span><span>}
+</span></span></code></pre></div><div class="note warning ">
+  消灭僵尸进程的方法是，杀死这个僵尸进程的<strong>父进程</strong>，这样僵尸进程的资源就被系统回收了。通过 kill -9 僵尸进程PID 的方式是<strong>不能</strong>消灭僵尸进程的，这个命令只对活着的进程有效！
+</div>
+<h3 id="回收进程">回收进程</h3>
+<h4 id="wait">wait</h4>
+<p>这是个阻塞函数，如果没有子进程退出，函数会一直阻塞等待，当检测到子进程退出了，该函数阻塞解除回收子进程资源。这个函数被调用一次，只能回收一个子进程的资源，如果有多个子进程需要资源回收，函数需要被调用<strong>多次</strong>。原型如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-10-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-10-1">1</a></span><span><span style="color:#75715e">// man 2 wait
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-10-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-10-2">2</a></span><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/wait.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-10-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-10-3">3</a></span><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-10-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-10-4">4</a></span><span>pid_t <span style="color:#a6e22e">wait</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>status);
+</span></span></code></pre></div><p>其中：<br>
+status:传出参数，通过传递出的信息判断回收的进程是怎么退出的，如不需要则可以指定为 NULL。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">WIFEXITED(status)</td>
+<td>返回 1, 进程是正常退出的</td>
+</tr>
+<tr>
+<td style="text-align:center">WEXITSTATUS(status)</td>
+<td>得到进程退出时候的状态码，相当于return后边的数值，或者exit()函数的参数</td>
+</tr>
+<tr>
+<td style="text-align:center">WIFSIGNALED(status)</td>
+<td>返回 1, 进程是被信号杀死了</td>
+</tr>
+<tr>
+<td style="text-align:center">WTERMSIG(status)</td>
+<td>获得进程是被哪个信号杀死的，会得到信号的编号</td>
+</tr>
+</tbody>
+</table>
+<p>返回值：     <br>
+成功：返回进程ID     <br>
+失败：返回-1     <br>
+举例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-1"> 1</a></span><span><span style="color:#75715e">// wait 函数回收子进程资源
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-2"> 2</a></span><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/wait.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-3"> 3</a></span><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-4"> 4</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-5"> 5</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-6"> 6</a></span><span>    pid_t pid;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-7"> 7</a></span><span>    <span style="color:#75715e">// 创建子进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-8"> 8</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span>; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-9"> 9</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-10">10</a></span><span>        pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-11">11</a></span><span>        <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-12">12</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-13">13</a></span><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-14">14</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-15">15</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-16"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-16">16</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-17"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-17">17</a></span><span>    <span style="color:#75715e">// 父进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-18"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-18">18</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-19"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-19">19</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-20"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-20">20</a></span><span>        <span style="color:#75715e">// 需要保证父进程一直在运行
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-21"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-21">21</a></span><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-22"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-22">22</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-23"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-23">23</a></span><span>            <span style="color:#75715e">// 回收子进程的资源
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-24"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-24">24</a></span><span><span style="color:#75715e"></span>            <span style="color:#75715e">// 子进程由多个, 需要循环回收子进程资源
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-25"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-25">25</a></span><span><span style="color:#75715e"></span>            pid_t ret <span style="color:#f92672">=</span> wait(NULL);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-26"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-26">26</a></span><span>            <span style="color:#66d9ef">if</span>(ret <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-27"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-27">27</a></span><span>            {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-28"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-28">28</a></span><span>                printf(<span style="color:#e6db74">&#34;成功回收了子进程资源, 子进程PID: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, ret);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-29"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-29">29</a></span><span>            }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-30"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-30">30</a></span><span>            <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-31"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-31">31</a></span><span>            {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-32"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-32">32</a></span><span>                printf(<span style="color:#e6db74">&#34;回收失败, 或者是已经没有子进程了...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-33"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-33">33</a></span><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-34"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-34">34</a></span><span>            }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-35"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-35">35</a></span><span>            printf(<span style="color:#e6db74">&#34;我是父进程, pid=%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-36"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-36">36</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-37"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-37">37</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-38"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-38">38</a></span><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-39"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-39">39</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-40"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-40">40</a></span><span>        <span style="color:#75715e">// 子进程, 执行这句代码之后, 子进程退出了
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-41"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-41">41</a></span><span><span style="color:#75715e"></span>        printf(<span style="color:#e6db74">&#34;我是子进程, pid=%d, 父进程ID: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid(), getppid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-42"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-42">42</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-43"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-43">43</a></span><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-11-44"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-11-44">44</a></span><span>}
+</span></span></code></pre></div><h4 id="waitpid">waitpid</h4>
+<p>waitpid可以看做wait的升级版，通过该函数可以控制回收子进程资源的方式是阻塞还是非阻塞，另外还可以通过该函数进行精准打击，可以精确指定回收某个或者某一类或者是全部子进程资源。原型如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-12-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-12-1">1</a></span><span><span style="color:#75715e">// man 2 waitpid
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-12-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-12-2">2</a></span><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/wait.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-12-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-12-3">3</a></span><span><span style="color:#75715e"></span><span style="color:#75715e">// 这个函数可以设置阻塞, 也可以设置为非阻塞
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-12-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-12-4">4</a></span><span><span style="color:#75715e">// 这个函数可以指定回收哪些子进程的资源
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-12-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-12-5">5</a></span><span><span style="color:#75715e"></span>pid_t <span style="color:#a6e22e">waitpid</span>(pid_t pid, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>status, <span style="color:#66d9ef">int</span> options);
+</span></span></code></pre></div><p>其中：  </p>
+<table>
+<thead>
+<tr>
+<th>pid</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>-1</strong></td>
+<td>回收所有的子进程资源</td>
+</tr>
+<tr>
+<td><strong>大于0</strong></td>
+<td>指定回收某一个进程的资源，pid是要回收的子进程的进程ID</td>
+</tr>
+<tr>
+<td><strong>0</strong></td>
+<td>回收当前进程组的所有子进程ID</td>
+</tr>
+<tr>
+<td><strong>小于-1</strong></td>
+<td>其绝对值代表进程组ID，表示要回收这个进程组的所有子进程资源</td>
+</tr>
+</tbody>
+</table>
+<p>status：和wait一样。<br>
+options：控制函数是阻塞还是非阻塞，0: 函数是行为是阻塞的，WNOHANG: 函数是行为是非阻塞的。<br>
+返回值：<br>
+如果函数是非阻塞的，并且子进程还在运行，返回0。<br>
+成功：得到子进程的进程ID。<br>
+失败: -1（没有子进程资源可以回收了，函数如果是阻塞的，阻塞会解除，直接返回 - 1或回收子进程资源的时候出现了异常）</p>
+<p>示例：通过 waitpid() 阻塞回收多个子进程资源</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-1"> 1</a></span><span><span style="color:#75715e">// 和wait() 行为一样, 阻塞
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-2"> 2</a></span><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/wait.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-3"> 3</a></span><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-4"> 4</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-5"> 5</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-6"> 6</a></span><span>    pid_t pid;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-7"> 7</a></span><span>    <span style="color:#75715e">// 创建子进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-8"> 8</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span>; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-9"> 9</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-10">10</a></span><span>        pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-11">11</a></span><span>        <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-12">12</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-13">13</a></span><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-14">14</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-15">15</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-16"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-16">16</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-17"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-17">17</a></span><span>    <span style="color:#75715e">// 父进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-18"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-18">18</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-19"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-19">19</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-20"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-20">20</a></span><span>        <span style="color:#75715e">// 需要保证父进程一直在运行
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-21"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-21">21</a></span><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-22"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-22">22</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-23"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-23">23</a></span><span>            <span style="color:#75715e">// 回收子进程的资源
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-24"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-24">24</a></span><span><span style="color:#75715e"></span>            <span style="color:#75715e">// 子进程由多个, 需要循环回收子进程资源
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-25"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-25">25</a></span><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">int</span> status;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-26"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-26">26</a></span><span>            pid_t ret <span style="color:#f92672">=</span> waitpid(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>status, <span style="color:#ae81ff">0</span>);  <span style="color:#75715e">// == wait(NULL);
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-27"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-27">27</a></span><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>(ret <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-28"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-28">28</a></span><span>            {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-29"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-29">29</a></span><span>                printf(<span style="color:#e6db74">&#34;成功回收了子进程资源, 子进程PID: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, ret);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-30"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-30">30</a></span><span>                                <span style="color:#75715e">// 判断进程是不是正常退出
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-31"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-31">31</a></span><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span>(WIFEXITED(status))
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-32"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-32">32</a></span><span>                {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-33"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-33">33</a></span><span>                    printf(<span style="color:#e6db74">&#34;子进程退出时候的状态码: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WEXITSTATUS(status));
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-34"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-34">34</a></span><span>                }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-35"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-35">35</a></span><span>                <span style="color:#66d9ef">if</span>(WIFSIGNALED(status))
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-36"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-36">36</a></span><span>                {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-37"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-37">37</a></span><span>                    printf(<span style="color:#e6db74">&#34;子进程是被这个信号杀死的: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WTERMSIG(status));
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-38"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-38">38</a></span><span>                }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-39"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-39">39</a></span><span>            }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-40"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-40">40</a></span><span>            <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-41"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-41">41</a></span><span>            {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-42"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-42">42</a></span><span>                printf(<span style="color:#e6db74">&#34;回收失败, 或者是已经没有子进程了...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-43"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-43">43</a></span><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-44"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-44">44</a></span><span>            }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-45"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-45">45</a></span><span>            printf(<span style="color:#e6db74">&#34;我是父进程, pid=%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-46"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-46">46</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-47"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-47">47</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-48"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-48">48</a></span><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-49"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-49">49</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-50"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-50">50</a></span><span>        <span style="color:#75715e">// 子进程, 执行这句代码之后, 子进程退出了
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-51"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-51">51</a></span><span><span style="color:#75715e"></span>        printf(<span style="color:#e6db74">&#34;===我是子进程, pid=%d, 父进程ID: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid(), getppid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-52"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-52">52</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-53"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-53">53</a></span><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-13-54"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-13-54">54</a></span><span>}
+</span></span></code></pre></div><p>示例:通过 waitpid() 非阻塞回收多个子进程资源</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:1;-o-tab-size:1;tab-size:1;"><code class="language-C" data-lang="C"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-1"> 1</a></span><span><span style="color:#75715e">// 非阻塞处理
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-2"> 2</a></span><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/wait.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-3"> 3</a></span><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-4"> 4</a></span><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-5"> 5</a></span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-6"> 6</a></span><span>    pid_t pid;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-7"> 7</a></span><span>    <span style="color:#75715e">// 创建子进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-8"> 8</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span>; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-9"> 9</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-10">10</a></span><span>        pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-11">11</a></span><span>        <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-12">12</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-13">13</a></span><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-14">14</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-15">15</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-16"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-16">16</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-17"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-17">17</a></span><span>    <span style="color:#75715e">// 父进程
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-18"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-18">18</a></span><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-19"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-19">19</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-20"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-20">20</a></span><span>        <span style="color:#75715e">// 需要保证父进程一直在运行
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-21"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-21">21</a></span><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-22"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-22">22</a></span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-23"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-23">23</a></span><span>            <span style="color:#75715e">// 回收子进程的资源
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-24"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-24">24</a></span><span><span style="color:#75715e"></span>            <span style="color:#75715e">// 子进程由多个, 需要循环回收子进程资源
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-25"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-25">25</a></span><span><span style="color:#75715e"></span>            <span style="color:#75715e">// 子进程退出了就回收, 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-26"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-26">26</a></span><span><span style="color:#75715e"></span>            <span style="color:#75715e">// 没退出就不回收, 返回0
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-27"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-27">27</a></span><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">int</span> status;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-28"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-28">28</a></span><span>            pid_t ret <span style="color:#f92672">=</span> waitpid(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>status, WNOHANG);  <span style="color:#75715e">// 非阻塞
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-29"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-29">29</a></span><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>(ret <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-30"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-30">30</a></span><span>            {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-31"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-31">31</a></span><span>                printf(<span style="color:#e6db74">&#34;成功回收了子进程资源, 子进程PID: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, ret);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-32"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-32">32</a></span><span>                <span style="color:#75715e">// 判断进程是不是正常退出
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-33"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-33">33</a></span><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span>(WIFEXITED(status))
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-34"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-34">34</a></span><span>                {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-35"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-35">35</a></span><span>                    printf(<span style="color:#e6db74">&#34;子进程退出时候的状态码: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WEXITSTATUS(status));
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-36"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-36">36</a></span><span>                }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-37"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-37">37</a></span><span>                <span style="color:#66d9ef">if</span>(WIFSIGNALED(status))
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-38"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-38">38</a></span><span>                {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-39"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-39">39</a></span><span>                    printf(<span style="color:#e6db74">&#34;子进程是被这个信号杀死的: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WTERMSIG(status));
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-40"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-40">40</a></span><span>                }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-41"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-41">41</a></span><span>            }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-42"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-42">42</a></span><span>            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(ret <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-43"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-43">43</a></span><span>            {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-44"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-44">44</a></span><span>                printf(<span style="color:#e6db74">&#34;子进程还没有退出, 不做任何处理...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-45"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-45">45</a></span><span>            }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-46"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-46">46</a></span><span>            <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-47"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-47">47</a></span><span>            {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-48"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-48">48</a></span><span>                printf(<span style="color:#e6db74">&#34;回收失败, 或者是已经没有子进程了...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-49"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-49">49</a></span><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-50"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-50">50</a></span><span>            }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-51"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-51">51</a></span><span>            printf(<span style="color:#e6db74">&#34;我是父进程, pid=%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-52"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-52">52</a></span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-53"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-53">53</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-54"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-54">54</a></span><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-55"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-55">55</a></span><span>    {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-56"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-56">56</a></span><span>        <span style="color:#75715e">// 子进程, 执行这句代码之后, 子进程退出了
+</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-57"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-57">57</a></span><span><span style="color:#75715e"></span>        printf(<span style="color:#e6db74">&#34;===我是子进程, pid=%d, 父进程ID: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid(), getppid());
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-58"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-58">58</a></span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-59"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-59">59</a></span><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-14-60"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-14-60">60</a></span><span>}
+</span></span></code></pre></div>
+
+    </div>
+    <footer class="post-footer">
+      
+
+
+<div class="addthis_inline_share_toolbox" style="text-align: center;"></div>
+<hr/>
+
+
+
+<div class="post-copyright">
+  <img src="/imgs/cc/cc.svg" width="75" height="75" align="right" />
+  <ul>
+    <li class="post-copyright-title">
+      <strong>文章标题：</strong>
+      Linux 进程
+    </li>
+    <li class="post-copyright-author">
+      <strong>本文作者： </strong>
+      孟方方
+    </li>
+    <li class="post-copyright-link"> 
+      <strong>本文链接：</strong>
+       <a id="post-cr-link" href="https://gitee.com/miffy-fly/Blog.git/post/linux/linuxprocess/" title="Linux 进程">https://gitee.com/miffy-fly/Blog.git/post/linux/linuxprocess/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <i class="fab fa-fw fa-creative-commons"></i><a target='_blank' href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh'>BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</div>
+
+<div class="post-nav">
+  <div class="post-nav-next post-nav-item">
+  </div>
+  <div class="post-nav-prev post-nav-item">
+    <a href="/miffy-fly/Blog.git/post/others/moveblog/" rel="prev" title="博客迁移踩坑记">
+      博客迁移踩坑记
+      <i class="fa fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+    </footer>
+  </article>
+</div>
+<div id="comments" class="post-comments">
+  <div class="comment-head">
+    <div class="comment-headline">
+      <i class="fas fa-comments fa-fw"></i>
+      <span>评论交流</span>
+    </div>
+    <div class="comment-switch">
+      <span class="first-comment">Giscus</span>
+      <span class="switch-btn "></span>
+      <span class="second-comment">Waline</span>
+    </div>
+  </div>
+  <div class="comment-wrap">
+  
+    <div><div class="comment-loading">
+  <i class="fa fa-sync fa-spin"></i>
+</div><div class="giscus-container"></div>
+    </div>
+    <div><div class="comment-loading">
+  <i class="fa fa-sync fa-spin"></i>
+</div><div class="waline-container"></div>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-inner">
+
+<div class="copyright">
+  &copy;
+  <span itemprop="copyrightYear">
+    2020 - 2022
+  </span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟方方</span>
+</div>
+
+
+    </div>
+  </footer> 
+  
+  <script type="text/javascript" src="https://unpkg.com/animejs@3.2.1/lib/anime.min.js" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"bookmark":{"color":"#222","enable":true,"save":"manual"},"copybtn":true,"darkmode":true,"giscus":{"cfg":{"category":"Comments","categoryid":null,"emit":false,"inputposition":"top","mapping":"title","reactions":false,"repo":"username/repo-name","repoid":null,"theme":"preferred_color_scheme"},"js":"https://giscus.app/client.js"},"hostname":"https://gitee.com/miffy-fly/Blog.git","i18n":{"ds_day":" 天前","ds_days":" 天 ","ds_hour":" 小时前","ds_hours":" 小时 ","ds_just":"刚刚","ds_min":" 分钟前","ds_mins":" 分钟","ds_month":" 个月前","ds_years":" 年 ","empty":"没有找到任何搜索结果：${query}","hits":"","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","placeholder":"搜索..."},"lang":"zh-CN","lazyload":false,"localSearch":{"enable":true,"path":"/searchindexes.xml","preload":false,"topnperarticle":-1,"trigger":"auto","unescape":false},"motion":{"async":true,"enable":true,"transition":{"collheader":"fadeInLeft","postblock":"fadeIn","postbody":"fadeInDown","postheader":"fadeInDown","sidebar":"fadeInUp"}},"root":"/","scheme":"Gemini","sidebar":{"display":"post","offset":12,"padding":18,"position":"left","width":256},"vendor":{"plugins":"unpkg","router":"https://unpkg.com"},"version":"4.3.1","waline":{"cfg":{"emoji":false,"imguploader":false,"pageview":"#waline-pageview-count","placeholder":"请文明发言哟 ヾ(≧▽≦*)o","reaction":true,"reactiontext":["点赞","踩一下","得意","不屑","尴尬","睡觉"],"reactiontitle":"你认为这篇文章怎么样？","requiredmeta":["nick","mail"],"serverurl":null,"sofa":"快来发表你的意见吧 (≧∀≦)ゞ","wordlimit":200},"css":{"alias":"waline","file":"dist/waline.css","name":"@waline/client","version":"2.11.3"},"js":{"alias":"waline","file":"dist/waline.js","name":"@waline/client","version":"2.11.3"}}}</script>
+
+
+
+
+
+
+
+<script type="text/javascript" src="/miffy-fly/Blog.git/js/main.min.a4d8b33d4c8124fe3decce5ba14a2fb8a224b7b21d44ff1628572420961912bf.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

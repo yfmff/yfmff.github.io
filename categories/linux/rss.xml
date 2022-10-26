@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on 孟方方的博客</title>
+    <link>https://gitee.com/miffy-fly/Blog.git/categories/linux/</link>
+    <description>Recent content in linux on 孟方方的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 19 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gitee.com/miffy-fly/Blog.git/categories/linux/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux 进程</title>
+      <link>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxprocess/</link>
+      <pubDate>Wed, 19 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxprocess/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimages3.10qianwan.com%2F10qianwan%2F20180818%2Fb_0_201808181354183725.jpg&amp;amp;refer=http%3A%2F%2Fimages3.10qianwan.com&amp;amp;app=2002&amp;amp;size=f9999,10000&amp;amp;q=a80&amp;amp;n=0&amp;amp;g=0n&amp;amp;fmt=auto?sec=1668783003&amp;amp;t=8703e07e2804cbc5b123556ecc014bc1&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux文件描述符</title>
+      <link>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxfiledescrib/</link>
+      <pubDate>Thu, 13 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxfiledescrib/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://p7.qhimg.com/bdr/__85/t013896dc6a08e415ee.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux—makefile</title>
+      <link>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxmakefile/</link>
+      <pubDate>Sun, 25 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxmakefile/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux静态库和动态库</title>
+      <link>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxlib/</link>
+      <pubDate>Sun, 25 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxlib/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gcc</title>
+      <link>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxgcc/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxgcc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux基础(二)</title>
+      <link>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxbase2/</link>
+      <pubDate>Fri, 23 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxbase2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux基础(一)</title>
+      <link>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxbase1/</link>
+      <pubDate>Wed, 21 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gitee.com/miffy-fly/Blog.git/post/linux/linuxbase1/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://img-blog.csdnimg.cn/20190106135703341.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0MDAyMjIx,size_16,color_FFFFFF,t_70&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
